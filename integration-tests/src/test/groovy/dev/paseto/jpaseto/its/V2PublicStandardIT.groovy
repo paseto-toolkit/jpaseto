@@ -1,8 +1,24 @@
+/*
+ * Copyright 2019-Present paseto.dev, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.paseto.jpaseto.its
 
 import dev.paseto.jpaseto.Paseto
 import dev.paseto.jpaseto.PasetoV2PublicBuilder
 import dev.paseto.jpaseto.Pasetos
+import dev.paseto.jpaseto.lang.Keys
 import org.apache.commons.codec.binary.Hex
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
@@ -51,10 +67,10 @@ class V2PublicStandardIT {
     @DataProvider()
     Object[][] officialV2PublicTestVectors() {
 
-        PrivateKey privateKey = Keys.privateKeyFromBytes(Hex.decodeHex('b4cbfb43df4ce210727d953e4a713307fa19bb7d9f85041438d9e11b942a3774' +
+        PrivateKey privateKey = Keys.ed25519PrivateKey(Hex.decodeHex('b4cbfb43df4ce210727d953e4a713307fa19bb7d9f85041438d9e11b942a3774' +
                                                                        '1eb9dbbbbc047c03fd70604e0071f0987e16b28b757225c11f00415d0e20b1a2'))
 
-        PublicKey publicKey = Keys.publicKeyFromBytes(Hex.decodeHex('1eb9dbbbbc047c03fd70604e0071f0987e16b28b757225c11f00415d0e20b1a2'))
+        PublicKey publicKey = Keys.ed25519PublicKey(Hex.decodeHex('1eb9dbbbbc047c03fd70604e0071f0987e16b28b757225c11f00415d0e20b1a2'))
 
         return [
                 ['v2.public.eyJkYXRhIjoidGhpcyBpcyBhIHNpZ25lZCBtZXNzYWdlIiwiZXhwIjoiMjAxOS0wMS0wMVQwMDowMDowMCswMDowMCJ9HQr8URrGntTu7Dz9J2IF23d1M7-9lH9xiqdGyJNvzp4angPW5Esc7C5huy_M8I8_DjJK2ZXC2SUYuOFM-Q_5Cw',
