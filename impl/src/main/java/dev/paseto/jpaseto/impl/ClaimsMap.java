@@ -17,7 +17,7 @@ package dev.paseto.jpaseto.impl;
 
 import dev.paseto.jpaseto.RequiredTypeException;
 
-import java.text.ParseException;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collection;
@@ -180,6 +180,7 @@ abstract class ClaimsMap implements Map<String, Object> {
                 long seconds = Long.parseLong((String) v);
                 v = seconds * 1000;
             } catch (NumberFormatException ignored) {
+                // ignored
             }
         }
         //v would have been normalized to milliseconds if it was a number value, so perform normal date conversion:
@@ -207,7 +208,7 @@ abstract class ClaimsMap implements Map<String, Object> {
     private static Instant parseIso8601Date(String s, String name) throws IllegalArgumentException {
         try {
             return DateFormats.parseIso8601Date(s);
-        } catch (ParseException e) {
+        } catch (DateTimeException e) {
             String msg = "'" + name + "' value does not appear to be ISO-8601-formatted: " + s;
             throw new IllegalArgumentException(msg, e);
         }

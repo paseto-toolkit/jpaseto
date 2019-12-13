@@ -35,44 +35,6 @@ public final class Objects {
     private static final String ARRAY_ELEMENT_SEPARATOR = ", ";
 
     /**
-     * Return whether the given throwable is a checked exception:
-     * that is, neither a RuntimeException nor an Error.
-     *
-     * @param ex the throwable to check
-     * @return whether the throwable is a checked exception
-     * @see Exception
-     * @see RuntimeException
-     * @see Error
-     */
-    public static boolean isCheckedException(Throwable ex) {
-        return !(ex instanceof RuntimeException || ex instanceof Error);
-    }
-
-    /**
-     * Check whether the given exception is compatible with the exceptions
-     * declared in a throws clause.
-     *
-     * @param ex                 the exception to checked
-     * @param declaredExceptions the exceptions declared in the throws clause
-     * @return whether the given exception is compatible
-     */
-    public static boolean isCompatibleWithThrowsClause(Throwable ex, Class[] declaredExceptions) {
-        if (!isCheckedException(ex)) {
-            return true;
-        }
-        if (declaredExceptions != null) {
-            int i = 0;
-            while (i < declaredExceptions.length) {
-                if (declaredExceptions[i].isAssignableFrom(ex.getClass())) {
-                    return true;
-                }
-                i++;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Determine whether the given object is an array:
      * either an Object array or a primitive array.
      *

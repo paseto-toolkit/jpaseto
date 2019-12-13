@@ -17,6 +17,7 @@ package dev.paseto.jpaseto;
 
 import java.time.Instant;
 
+@SuppressWarnings("unchecked")
 interface ClaimsMutator<T extends ClaimsMutator> {
 
     T claim(String key, Object value);

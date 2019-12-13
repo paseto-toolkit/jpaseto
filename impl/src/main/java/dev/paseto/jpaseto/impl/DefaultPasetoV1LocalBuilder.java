@@ -28,7 +28,7 @@ import java.security.SecureRandom;
 @AutoService(PasetoV1LocalBuilder.class)
 public class DefaultPasetoV1LocalBuilder extends AbstractPasetoBuilder<PasetoV1LocalBuilder> implements PasetoV1LocalBuilder {
 
-    private String HEADER = "v1.local.";
+    private static final String HEADER = "v1.local.";
 
     private SecretKey sharedSecret = null;
 
@@ -61,14 +61,6 @@ public class DefaultPasetoV1LocalBuilder extends AbstractPasetoBuilder<PasetoV1L
         } catch (NoSuchAlgorithmException e) {
             throw new SecurityException("JVM does not provide a strong secure random number generator", e);
         }
-
-//        // FIXME
-//        randomBytes = new byte[] {
-//                0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
-//                0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
-//                0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
-//                0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0
-//        };
 
         // 3
         byte[] nonce = cryptoProvider.nonce(payload, randomBytes);

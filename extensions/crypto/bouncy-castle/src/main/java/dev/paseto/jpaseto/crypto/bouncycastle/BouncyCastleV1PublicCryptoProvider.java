@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.paseto.jpaseto;
+package dev.paseto.jpaseto.crypto.bouncycastle;
 
-import dev.paseto.jpaseto.io.Serializer;
+import com.google.auto.service.AutoService;
+import dev.paseto.jpaseto.impl.crypto.JcaV1PublicCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V1PublicCryptoProvider;
 
-import java.util.Map;
+@AutoService(V1PublicCryptoProvider.class)
+public class BouncyCastleV1PublicCryptoProvider extends JcaV1PublicCryptoProvider {
 
-public interface PasetoBuilder<T extends PasetoBuilder> extends ClaimsMutator<T> {
-
-    T setSerializer(Serializer<Map<String, Object>> serializer);
-
-    String compact();
+    public BouncyCastleV1PublicCryptoProvider() {
+        BouncyCastleInitializer.enableBouncyCastle();
+    }
 }

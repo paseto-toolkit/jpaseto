@@ -23,6 +23,7 @@
     <artifactId>jpaseto-root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>JPaseto</name>
 
     <organization>
         <name>paseto.dev</name>
@@ -53,9 +54,9 @@
     <modules>
         <module>api</module>
         <module>impl</module>
-        <module>extensions/sodium</module>
-        <module>extensions/bouncy-castle</module>
-        <module>extensions/jackson</module>
+        <module>extensions/crypto/sodium</module>
+        <module>extensions/crypto/bouncy-castle</module>
+        <module>extensions/json/jackson</module>
         <module>integration-tests</module>
         <module>coverage</module>
     </modules>
@@ -135,6 +136,11 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
+                <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <version>3.1.12.2</version>
@@ -195,6 +201,8 @@
                             <exclude>**/lombok.config</exclude>
                             <exclude>**/mvnw</exclude>
                             <exclude>.gitattributes</exclude>
+                            <exclude>NOTICE</exclude>
+                            <exclude>**/NOTICE.template</exclude>
                         </excludes>
                     </configuration>
                 </plugin>
@@ -328,6 +336,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.1.1</version>
                     </plugin>
                     <plugin>
                         <groupId>com.mycila</groupId>

@@ -38,6 +38,6 @@ public final class DescribedPredicate<T> implements Predicate<T> {
     }
 
     public static <T> Predicate<T> equalTo(T value) {
-        return new DescribedPredicate("equal to: '" + value + "'", o -> Objects.equals(value, o));
+        return new DescribedPredicate<>("equal to: '" + value + "'", o -> Objects.equals(value, o));
     }
 }

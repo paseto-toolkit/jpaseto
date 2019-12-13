@@ -26,6 +26,7 @@ package dev.paseto.jpaseto;
  */
 public class InvalidClaimException extends ClaimPasetoException {
 
+    // TODO make imutable
     private String claimName;
     private Object claimDescription;
 

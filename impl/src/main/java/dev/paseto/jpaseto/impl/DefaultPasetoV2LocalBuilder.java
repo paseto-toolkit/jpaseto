@@ -28,7 +28,7 @@ import java.security.SecureRandom;
 @AutoService(PasetoV2LocalBuilder.class)
 public class DefaultPasetoV2LocalBuilder extends AbstractPasetoBuilder<PasetoV2LocalBuilder> implements PasetoV2LocalBuilder {
 
-    private String HEADER = "v2.local.";
+    private static final String HEADER = "v2.local.";
 
     private SecretKey sharedSecret = null;
 

@@ -19,6 +19,7 @@ import dev.paseto.jpaseto.FooterClaims;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 public class DefaultFooterClaims extends ClaimsMap implements FooterClaims {
 
@@ -47,5 +48,19 @@ public class DefaultFooterClaims extends ClaimsMap implements FooterClaims {
     @Override
     public String value() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DefaultFooterClaims that = (DefaultFooterClaims) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), value);
     }
 }

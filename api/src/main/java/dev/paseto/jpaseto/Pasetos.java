@@ -19,6 +19,8 @@ import dev.paseto.jpaseto.lang.Services;
 
 public final class Pasetos {
 
+    private Pasetos() {}
+
     public static PasetosV2Local v2Local() {
         return new PasetosV2Local();
     }

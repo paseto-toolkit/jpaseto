@@ -17,7 +17,6 @@ package dev.paseto.jpaseto.impl;
 
 import dev.paseto.jpaseto.PasetoBuilder;
 import dev.paseto.jpaseto.impl.lang.Bytes;
-import dev.paseto.jpaseto.io.SerializationException;
 import dev.paseto.jpaseto.io.Serializer;
 import dev.paseto.jpaseto.lang.Collections;
 import dev.paseto.jpaseto.lang.Services;
@@ -34,28 +33,33 @@ abstract class AbstractPasetoBuilder<T extends PasetoBuilder> implements PasetoB
     private final Map<String, Object> footer = new HashMap<>();
     private String footerString = null;
 
-    private Serializer<Map<String, ?>> serializer;
+    private Serializer<Map<String, Object>> serializer;
 
     @Override
     public T claim(String key, Object value) {
         payload.put(key, value);
-        return (T) this;
+        return self();
     }
 
     @Override
     public T footerClaim(String key, Object value) {
         footer.put(key, value);
-        return (T) this;
+        return self();
     }
 
     @Override
     public T setFooter(String footer) {
         this.footerString = footer;
+        return self();
+    }
+
+    @SuppressWarnings("unchecked")
+    private T self() {
         return (T) this;
     }
 
-
-    protected Serializer<Map<String, ?>> getSerializer() {
+    @SuppressWarnings("unchecked")
+    protected Serializer<Map<String, Object>> getSerializer() {
 
         // if null just return the first service
         if (serializer == null) {
@@ -65,9 +69,9 @@ abstract class AbstractPasetoBuilder<T extends PasetoBuilder> implements PasetoB
     }
 
     @Override
-    public T setSerializer(Serializer<Map<String, ?>> serializer) {
+    public T setSerializer(Serializer<Map<String, Object>> serializer) {
         this.serializer = serializer;
-        return (T) this;
+        return self();
     }
 
     protected String footerToString(byte[] footer) {
@@ -84,11 +88,7 @@ abstract class AbstractPasetoBuilder<T extends PasetoBuilder> implements PasetoB
     }
 
     protected byte[] payloadAsBytes() {
-        try {
-            return getSerializer().serialize(getPayload());
-        } catch (SerializationException e) {
-            throw new RuntimeException("Could not serialize Paseto payload", e);
-        }
+        return getSerializer().serialize(getPayload());
     }
 
     protected byte[] footerAsBytes() {
@@ -97,13 +97,9 @@ abstract class AbstractPasetoBuilder<T extends PasetoBuilder> implements PasetoB
             return getFooterString().getBytes(StandardCharsets.UTF_8);
         }
 
-        Map<String, Object> footer = getFooter();
-        if (!Collections.isEmpty(footer)) {
-            try {
-                return getSerializer().serialize(footer);
-            } catch (SerializationException e) {
-                throw new RuntimeException("Could not serialize Paseto Footer", e);
-            }
+        Map<String, Object> tmpFooter = getFooter();
+        if (!Collections.isEmpty(tmpFooter)) {
+            return getSerializer().serialize(tmpFooter);
         }
 
         return new byte[0];

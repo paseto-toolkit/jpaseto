@@ -74,10 +74,6 @@ class DefaultPasetoParser implements PasetoParser {
         byte[] payloadBytes = Base64.getUrlDecoder().decode(parts[2].getBytes(StandardCharsets.UTF_8));
         byte[] footerBytes = parts.length == 4 ? Base64.getUrlDecoder().decode(parts[3].getBytes(StandardCharsets.UTF_8)) : new byte[0];
 
-        System.out.println("version: " + parts[0]);
-        System.out.println("purpose: " + parts[1]);
-//        System.out.println("encrypted payload: " + parts[2]);
-
         Paseto paseto;
         if (version == Version.V2 && purpose == Purpose.LOCAL) {
             paseto = v2Local(payloadBytes, footerBytes);

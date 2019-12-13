@@ -22,6 +22,8 @@ import java.security.PublicKey;
 
 public final class Keys {
 
+    private Keys() {}
+
     public static PublicKey ed25519PublicKey(final byte[] bytes) {
 
         return new PublicKey() {

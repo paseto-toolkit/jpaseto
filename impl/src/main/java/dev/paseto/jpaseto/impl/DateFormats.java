@@ -17,7 +17,7 @@ package dev.paseto.jpaseto.impl;
 
 import dev.paseto.jpaseto.lang.Assert;
 
-import java.text.ParseException;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -27,13 +27,15 @@ import java.time.format.DateTimeFormatter;
  */
 final class DateFormats {
 
+    private DateFormats() {}
+
     private static final DateTimeFormatter ISO_OFFSET_DATE_TIME = DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneOffset.UTC);
 
     static String formatIso8601(Instant instant) {
         return ISO_OFFSET_DATE_TIME.format(instant);
     }
 
-    static Instant parseIso8601Date(String s) throws ParseException {
+    static Instant parseIso8601Date(String s) throws DateTimeException {
         Assert.notNull(s, "String argument cannot be null.");
         return Instant.from(ISO_OFFSET_DATE_TIME.parse(s));
     }

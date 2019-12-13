@@ -23,17 +23,22 @@
         <groupId>dev.paseto</groupId>
         <artifactId>jpaseto-root</artifactId>
         <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jpaseto-impl</artifactId>
-    <name>JPaseto :: Impl</name>
-    <description></description>
+    <artifactId>jpaseto-bouncy-castle</artifactId>
+    <name>JPaseto :: Crypto :: Bouncy Castle</name>
 
     <dependencies>
-
         <dependency>
             <groupId>dev.paseto</groupId>
-            <artifactId>jpaseto-api</artifactId>
+            <artifactId>jpaseto-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.64</version>
         </dependency>
 
         <dependency>
@@ -41,14 +46,6 @@
             <artifactId>auto-service</artifactId>
             <optional>true</optional>
         </dependency>
-
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.13</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
 
 </project>

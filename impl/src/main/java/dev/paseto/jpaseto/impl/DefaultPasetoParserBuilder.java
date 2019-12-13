@@ -75,6 +75,7 @@ public class DefaultPasetoParserBuilder implements PasetoParserBuilder {
 
         Assert.isTrue( publicKey != null || sharedSecret != null,"PasetoParser must be configure with a public key (for public tokens) and/or a sharedSecret (for local tokens).");
 
+        @SuppressWarnings("unchecked")
         Deserializer<Map<String, Object>> tmpDeserializer = (this.deserializer != null)
                 ? this.deserializer
                 : Services.loadFirst(Deserializer.class);
