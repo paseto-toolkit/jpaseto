@@ -28,4 +28,21 @@
     <artifactId>jpaseto-api</artifactId>
     <name>JPaseto :: API</name>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!-- lang contains a few files copied from other projects, contains a few UselessParentheses -->
+                        <exclude>**/lang/Strings.java</exclude>
+                        <exclude>**/lang/Objects.java</exclude>
+                        <exclude>**/lang/Collections.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
