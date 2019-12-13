@@ -18,7 +18,6 @@ package dev.paseto.jpaseto.impl;
 import com.google.auto.service.AutoService;
 import dev.paseto.jpaseto.FooterClaims;
 import dev.paseto.jpaseto.KeyResolver;
-import dev.paseto.jpaseto.Paseto;
 import dev.paseto.jpaseto.PasetoParser;
 import dev.paseto.jpaseto.PasetoParserBuilder;
 import dev.paseto.jpaseto.Purpose;
@@ -28,7 +27,6 @@ import dev.paseto.jpaseto.lang.Assert;
 import dev.paseto.jpaseto.lang.Services;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.security.PublicKey;
 import java.time.Clock;
 import java.time.Duration;

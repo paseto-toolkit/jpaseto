@@ -16,8 +16,6 @@
 package dev.paseto.jpaseto.impl.crypto
 
 import org.apache.commons.codec.binary.Hex
-import org.hamcrest.MatcherAssert
-import org.hamcrest.Matchers
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 

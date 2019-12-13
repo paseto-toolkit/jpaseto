@@ -19,6 +19,7 @@ import com.google.auto.service.AutoService;
 import dev.paseto.jpaseto.PasetoV2PublicBuilder;
 import dev.paseto.jpaseto.impl.crypto.V2PublicCryptoProvider;
 import dev.paseto.jpaseto.lang.Services;
+
 import java.security.PrivateKey;
 
 @AutoService(PasetoV2PublicBuilder.class)

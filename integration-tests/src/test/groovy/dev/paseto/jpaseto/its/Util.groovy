@@ -18,9 +18,9 @@ package dev.paseto.jpaseto.its
 import dev.paseto.jpaseto.Paseto
 import dev.paseto.jpaseto.Purpose
 import dev.paseto.jpaseto.Version
-import dev.paseto.jpaseto.impl.DefaultPaseto
-import dev.paseto.jpaseto.impl.DefaultFooterClaims
 import dev.paseto.jpaseto.impl.DefaultClaims
+import dev.paseto.jpaseto.impl.DefaultFooterClaims
+import dev.paseto.jpaseto.impl.DefaultPaseto
 
 import java.time.Clock
 import java.time.Instant

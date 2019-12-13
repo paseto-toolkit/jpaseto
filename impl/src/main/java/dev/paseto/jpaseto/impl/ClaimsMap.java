@@ -15,7 +15,6 @@
  */
 package dev.paseto.jpaseto.impl;
 
-import dev.paseto.jpaseto.Claims;
 import dev.paseto.jpaseto.RequiredTypeException;
 
 import java.text.ParseException;

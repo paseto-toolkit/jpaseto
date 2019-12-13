@@ -16,7 +16,6 @@
 package dev.paseto.jpaseto;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.security.PublicKey;
 
 /**

@@ -15,9 +15,9 @@
  */
 package dev.paseto.jpaseto.impl;
 
-import dev.paseto.jpaseto.Paseto;
-import dev.paseto.jpaseto.FooterClaims;
 import dev.paseto.jpaseto.Claims;
+import dev.paseto.jpaseto.FooterClaims;
+import dev.paseto.jpaseto.Paseto;
 import dev.paseto.jpaseto.Purpose;
 import dev.paseto.jpaseto.Version;
 

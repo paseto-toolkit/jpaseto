@@ -19,6 +19,8 @@ import org.apache.tuweni.crypto.sodium.Sodium;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 class Blake2b {
 
@@ -36,8 +38,10 @@ class Blake2b {
                     byte[].class, long.class,
                     byte[].class, long.class);
 
-            blake2b.setAccessible(true);
-            blake2b.invoke(null,
+            AccessController.doPrivileged((PrivilegedAction<Method>) () -> {
+                blake2b.setAccessible(true);
+                return blake2b;
+            }).invoke(null,
                            output, output.length,
                            bytes, bytes.length,
                            key, key.length);

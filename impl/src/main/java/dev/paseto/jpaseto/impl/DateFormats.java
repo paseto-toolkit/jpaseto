@@ -17,14 +17,10 @@ package dev.paseto.jpaseto.impl;
 
 import dev.paseto.jpaseto.lang.Assert;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * @since 0.1.0

@@ -15,8 +15,8 @@
  */
 package dev.paseto.jpaseto.impl;
 
-import dev.paseto.jpaseto.impl.lang.Bytes;
 import dev.paseto.jpaseto.PasetoBuilder;
+import dev.paseto.jpaseto.impl.lang.Bytes;
 import dev.paseto.jpaseto.io.SerializationException;
 import dev.paseto.jpaseto.io.Serializer;
 import dev.paseto.jpaseto.lang.Collections;

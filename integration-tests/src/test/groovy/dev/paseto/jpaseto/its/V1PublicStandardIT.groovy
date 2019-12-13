@@ -18,7 +18,6 @@ package dev.paseto.jpaseto.its
 import dev.paseto.jpaseto.Paseto
 import dev.paseto.jpaseto.PasetoV1PublicBuilder
 import dev.paseto.jpaseto.Pasetos
-import org.hamcrest.MatcherAssert
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 
@@ -31,7 +30,6 @@ import java.security.spec.X509EncodedKeySpec
 import static dev.paseto.jpaseto.its.Util.clockForVectors
 import static dev.paseto.jpaseto.its.Util.v1PublicFromClaims
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.is
 
 class V1PublicStandardIT {
 

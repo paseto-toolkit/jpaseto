@@ -17,16 +17,16 @@ package dev.paseto.jpaseto.impl;
 
 import dev.paseto.jpaseto.ClaimPasetoException;
 import dev.paseto.jpaseto.ExpiredPasetoException;
+import dev.paseto.jpaseto.FooterClaims;
 import dev.paseto.jpaseto.IncorrectClaimException;
 import dev.paseto.jpaseto.InvalidClaimException;
 import dev.paseto.jpaseto.KeyResolver;
 import dev.paseto.jpaseto.MissingClaimException;
 import dev.paseto.jpaseto.Paseto;
-import dev.paseto.jpaseto.FooterClaims;
 import dev.paseto.jpaseto.PasetoParser;
+import dev.paseto.jpaseto.PasetoSignatureException;
 import dev.paseto.jpaseto.PrematurePasetoException;
 import dev.paseto.jpaseto.Purpose;
-import dev.paseto.jpaseto.PasetoSignatureException;
 import dev.paseto.jpaseto.UnsupportedPasetoException;
 import dev.paseto.jpaseto.Version;
 import dev.paseto.jpaseto.io.Deserializer;

@@ -20,10 +20,8 @@ import dev.paseto.jpaseto.stub.StubService
 import org.testng.annotations.Test
 
 import static dev.paseto.jpaseto.Util.expect
-import static org.hamcrest.Matchers.instanceOf
-import static org.hamcrest.Matchers.notNullValue
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.sameInstance
+import static org.hamcrest.Matchers.*
 
 class ServicesTest {
 
