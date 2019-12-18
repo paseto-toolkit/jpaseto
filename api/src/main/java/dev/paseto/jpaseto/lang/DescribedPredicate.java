@@ -37,6 +37,13 @@ public final class DescribedPredicate<T> implements Predicate<T> {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return "DescribedPredicate{" +
+                "description='" + description +
+                '}';
+    }
+
     public static <T> Predicate<T> equalTo(T value) {
         return new DescribedPredicate<>("equal to: '" + value + "'", o -> Objects.equals(value, o));
     }

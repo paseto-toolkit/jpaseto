@@ -23,7 +23,7 @@ import javax.crypto.SecretKey;
 import java.security.PublicKey;
 import java.time.Clock;
 import java.time.Duration;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -127,7 +127,7 @@ public interface PasetoParserBuilder {
      * @see MissingClaimException
      * @see IncorrectClaimException
      */
-    default PasetoParserBuilder requireExpiration(Date exp) {
+    default PasetoParserBuilder requireExpiration(Instant exp) {
         return require(Claims.EXPIRATION, DescribedPredicate.equalTo(exp));
     }
 
@@ -141,7 +141,7 @@ public interface PasetoParserBuilder {
      * @see MissingClaimException
      * @see IncorrectClaimException
      */
-    default PasetoParserBuilder requireNotBefore(Date nbf) {
+    default PasetoParserBuilder requireNotBefore(Instant nbf) {
         return require(Claims.NOT_BEFORE, DescribedPredicate.equalTo(nbf));
     }
 
@@ -155,7 +155,7 @@ public interface PasetoParserBuilder {
      * @see MissingClaimException
      * @see IncorrectClaimException
      */
-    default PasetoParserBuilder requireIssuedAt(Date iat) {
+    default PasetoParserBuilder requireIssuedAt(Instant iat) {
         return require(Claims.ISSUED_AT, DescribedPredicate.equalTo(iat));
     }
 
@@ -184,7 +184,7 @@ public interface PasetoParserBuilder {
      * @see IncorrectClaimException
      */
     default PasetoParserBuilder requireKeyId(String kid) {
-        return require(FooterClaims.KEY_ID, DescribedPredicate.equalTo(kid));
+        return requireFooter(FooterClaims.KEY_ID, DescribedPredicate.equalTo(kid));
     }
 
     /**
@@ -204,6 +204,8 @@ public interface PasetoParserBuilder {
 
     PasetoParserBuilder require(String claimName, Predicate<Object> value);
 
+    PasetoParserBuilder requireFooter(String claimName, Predicate<Object> value);
+
     /**
      * Sets the {@link Clock} that determines the timestamp to use when validating the parsed Paseto.
      * The parser uses a default Clock implementation that simply returns {@code new Date()} when called.
@@ -214,11 +216,11 @@ public interface PasetoParserBuilder {
     PasetoParserBuilder setClock(Clock clock);
 
     /**
-     * Sets the amount of clock skew in seconds to tolerate when verifying the local time against the {@code exp}
+     * Sets the amount of clock skew tolerate when verifying the local time against the {@code exp}
      * and {@code nbf} claims.
      *
-     * @param allowedClockSkewMillis the duration to tolerate for clock skew when verifying {@code exp} or {@code nbf} claims.
+     * @param allowedClockSkew the duration to tolerate for clock skew when verifying {@code exp} or {@code nbf} claims.
      * @return the parser builder for method chaining.
      */
-    PasetoParserBuilder setAllowedClockSkewSeconds(Duration allowedClockSkewMillis);
+    PasetoParserBuilder setAllowedClockSkew(Duration allowedClockSkew);
 }

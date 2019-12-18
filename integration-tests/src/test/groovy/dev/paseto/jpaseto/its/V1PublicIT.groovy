@@ -15,26 +15,37 @@
  */
 package dev.paseto.jpaseto.its
 
-import dev.paseto.jpaseto.Paseto
-import dev.paseto.jpaseto.PasetoV1PublicBuilder
-import dev.paseto.jpaseto.Pasetos
+import dev.paseto.jpaseto.*
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 
-import java.security.KeyFactory
-import java.security.PrivateKey
-import java.security.PublicKey
+import java.security.*
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 
-import static dev.paseto.jpaseto.its.Util.clockForVectors
-import static dev.paseto.jpaseto.its.Util.v1PublicFromClaims
+import static dev.paseto.jpaseto.its.Util.*
 import static org.hamcrest.MatcherAssert.assertThat
 
-class V1PublicStandardIT {
+class V1PublicIT {
+
+    KeyPair keyPairForNegativeTests = KeyPairGenerator.getInstance("RSA").generateKeyPair()
+
+    @Test
+    void invalidPublicKeyDecode() {
+
+        def token = 'v1.public.eyJkYXRhIjoidGhpcyBpcyBhIHNpZ25lZCBtZXNzYWdlIiwiZXhwIjoiMjAxOS0wMS0wMVQwMDowMDowMCswMDowMCJ9cIZKahKeGM5kiAS_4D70Qbz9FIThZpxetJ6n6E6kXP_119SvQcnfCSfY_gG3D0Q2v7FEtm2Cmj04lE6YdgiZ0RwA41WuOjXq7zSnmmHK9xOSH6_2yVgt207h1_LphJzVztmZzq05xxhZsV3nFPm2cCu8oPceWy-DBKjALuMZt_Xj6hWFFie96SfQ6i85lOsTX8Kc6SQaG-3CgThrJJ6W9DC-YfQ3lZ4TJUoY3QNYdtEgAvp1QuWWK6xmIb8BwvkBPej5t88QUb7NcvZ15VyNw3qemQGn2ITSdpdDgwMtpflZOeYdtuxQr1DSGO2aQyZl7s0WYn1IjdQFx6VjSQ4yfw'
+
+        PasetoParser parser = Pasetos.parserBuilder()
+            .setClock(clockForVectors())
+            .setPublicKey(keyPairForNegativeTests.getPublic()) // this was signed with a different key
+            .build()
+
+        // an incorrect key will generate a different auth key, and will fail before the cipher
+        expect PasetoSignatureException, { parser.parse(token) }
+    }
 
     @Test(dataProvider = "officialV1PublicTestVectors")
-    void officialV2PublicVectorsTest(String expectedToken, PublicKey publicKey, PrivateKey privateKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
+    void officialVectorsV2PublicVectorsTest(String expectedToken, PublicKey publicKey, PrivateKey privateKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
 
         // create to token
         PasetoV1PublicBuilder builder = Pasetos.v1Public().builder()
@@ -70,7 +81,7 @@ class V1PublicStandardIT {
         assertThat(parsedToken, PasetoMatcher.paseto(parsedExpectedToken))
     }
 
-    @DataProvider()
+    @DataProvider
     Object[][] officialV1PublicTestVectors() {
 
         String publicKeyPem =
@@ -119,8 +130,7 @@ class V1PublicStandardIT {
             PrivateKey privateKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(Base64.decoder.decode(privateKeyPem)))
 
         return [
-                [
-                        'v1.public.eyJkYXRhIjoidGhpcyBpcyBhIHNpZ25lZCBtZXNzYWdlIiwiZXhwIjoiMjAxOS0wMS0wMVQwMDowMDowMCswMDowMCJ9cIZKahKeGM5kiAS_4D70Qbz9FIThZpxetJ6n6E6kXP_119SvQcnfCSfY_gG3D0Q2v7FEtm2Cmj04lE6YdgiZ0RwA41WuOjXq7zSnmmHK9xOSH6_2yVgt207h1_LphJzVztmZzq05xxhZsV3nFPm2cCu8oPceWy-DBKjALuMZt_Xj6hWFFie96SfQ6i85lOsTX8Kc6SQaG-3CgThrJJ6W9DC-YfQ3lZ4TJUoY3QNYdtEgAvp1QuWWK6xmIb8BwvkBPej5t88QUb7NcvZ15VyNw3qemQGn2ITSdpdDgwMtpflZOeYdtuxQr1DSGO2aQyZl7s0WYn1IjdQFx6VjSQ4yfw',
+                ['v1.public.eyJkYXRhIjoidGhpcyBpcyBhIHNpZ25lZCBtZXNzYWdlIiwiZXhwIjoiMjAxOS0wMS0wMVQwMDowMDowMCswMDowMCJ9cIZKahKeGM5kiAS_4D70Qbz9FIThZpxetJ6n6E6kXP_119SvQcnfCSfY_gG3D0Q2v7FEtm2Cmj04lE6YdgiZ0RwA41WuOjXq7zSnmmHK9xOSH6_2yVgt207h1_LphJzVztmZzq05xxhZsV3nFPm2cCu8oPceWy-DBKjALuMZt_Xj6hWFFie96SfQ6i85lOsTX8Kc6SQaG-3CgThrJJ6W9DC-YfQ3lZ4TJUoY3QNYdtEgAvp1QuWWK6xmIb8BwvkBPej5t88QUb7NcvZ15VyNw3qemQGn2ITSdpdDgwMtpflZOeYdtuxQr1DSGO2aQyZl7s0WYn1IjdQFx6VjSQ4yfw',
                 publicKey,
                 privateKey,
                 [data: 'this is a signed message', exp: '2019-01-01T00:00:00+00:00'],

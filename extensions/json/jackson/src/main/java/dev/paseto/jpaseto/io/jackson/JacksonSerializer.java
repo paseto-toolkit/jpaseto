@@ -17,10 +17,17 @@ package dev.paseto.jpaseto.io.jackson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import com.google.auto.service.AutoService;
 import dev.paseto.jpaseto.io.SerializationException;
 import dev.paseto.jpaseto.io.Serializer;
 import dev.paseto.jpaseto.lang.Assert;
+import dev.paseto.jpaseto.lang.DateFormats;
+
+import java.time.Instant;
 
 /**
  * @since 0.1.0
@@ -28,7 +35,7 @@ import dev.paseto.jpaseto.lang.Assert;
 @AutoService(Serializer.class)
 public class JacksonSerializer<T> implements Serializer<T> {
 
-    static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
+    static final ObjectMapper DEFAULT_OBJECT_MAPPER = createObjectMapper();
 
     private final ObjectMapper objectMapper;
 
@@ -57,5 +64,24 @@ public class JacksonSerializer<T> implements Serializer<T> {
     @SuppressWarnings("WeakerAccess") //for testing
     protected byte[] writeValueAsBytes(T t) throws JsonProcessingException {
         return this.objectMapper.writeValueAsBytes(t);
+    }
+
+    private static ObjectMapper createObjectMapper() {
+
+        return new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                // custom time formatting replace 'Z' with +00:00
+                .registerModule(new SimpleModule()
+                    .addSerializer(Instant.class, new NonZInstantSerializer())
+                );
+    }
+    
+    private static class NonZInstantSerializer extends InstantSerializer {
+        private static final long serialVersionUID = 1L;
+
+        private NonZInstantSerializer() {
+            super(InstantSerializer.INSTANCE, true, DateFormats.ISO_OFFSET_DATE_TIME);
+        }
     }
 }

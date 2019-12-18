@@ -18,7 +18,6 @@ package dev.paseto.jpaseto.impl;
 import com.google.auto.service.AutoService;
 import dev.paseto.jpaseto.PasetoV1PublicBuilder;
 import dev.paseto.jpaseto.impl.crypto.V1PublicCryptoProvider;
-import dev.paseto.jpaseto.lang.Services;
 
 import java.security.PrivateKey;
 
@@ -32,7 +31,7 @@ public class DefaultPasetoV1PublicBuilder extends AbstractPasetoBuilder<PasetoV1
     private final V1PublicCryptoProvider cryptoProvider;
 
     public DefaultPasetoV1PublicBuilder() {
-        this(Services.loadFirst(V1PublicCryptoProvider.class));
+        this(CryptoProviders.v1PublicCryptoProvider());
     }
 
     private DefaultPasetoV1PublicBuilder(V1PublicCryptoProvider cryptoProvider) {

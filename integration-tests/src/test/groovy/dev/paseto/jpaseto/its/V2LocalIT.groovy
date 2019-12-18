@@ -15,10 +15,7 @@
  */
 package dev.paseto.jpaseto.its
 
-import dev.paseto.jpaseto.Paseto
-import dev.paseto.jpaseto.PasetoBuilder
-import dev.paseto.jpaseto.PasetoParser
-import dev.paseto.jpaseto.Pasetos
+import dev.paseto.jpaseto.*
 import dev.paseto.jpaseto.lang.Keys
 import org.apache.commons.codec.binary.Hex
 import org.testng.annotations.DataProvider
@@ -26,18 +23,31 @@ import org.testng.annotations.Test
 
 import javax.crypto.SecretKey
 
-import static dev.paseto.jpaseto.its.Util.clockForVectors
-import static dev.paseto.jpaseto.its.Util.v2LocalFromClaims
+import static dev.paseto.jpaseto.its.Util.*
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.is
 
 /**
  * Standard vector tests from paseto.io
  */
-class V2LocalStandardIT {
+class V2LocalIT {
+
+    @Test
+    void invalidSecretDecode() {
+        SecretKey sharedSecret = Keys.secretKey(Hex.decodeHex('1111111111111111111111111111111111111111111111111111111111111111'))
+        def token = 'v2.local.97TTOvgwIxNGvV80XKiGZg_kD3tsXM_-qB4dZGHOeN1cTkgQ4PnW8888l802W8d9AvEGnoNBY3BnqHORy8a5cC8aKpbA0En8XELw2yDk2f1sVODyfnDbi6rEGMY3pSfCbLWMM2oHJxvlEl2XbQ'
+
+        PasetoParser parser = Pasetos.parserBuilder()
+                .setClock(clockForVectors())
+                .setSharedSecret(sharedSecret)
+                .build()
+
+        // an incorrect key will generate a different auth key, and will fail before the cipher
+        expect InvalidMacException, { parser.parse(token) }
+    }
 
     @Test(dataProvider = "officialV2LocalTestVectors")
-    void officialV2LocalDecodeTest(String token, SecretKey secretKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
+    void officialVectorsV2LocalDecodeTest(String token, SecretKey secretKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
 
         PasetoParser parser = Pasetos.parserBuilder()
                 .setClock(clockForVectors())
@@ -49,7 +59,7 @@ class V2LocalStandardIT {
     }
 
     @Test(dataProvider = "officialV2LocalTestVectors")
-    void officialV2LocalEncodeTest(String token, SecretKey secretKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
+    void officialVectorsV2LocalEncodeTest(String token, SecretKey secretKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
 
         PasetoBuilder pasetoBuilder = Pasetos.v2Local().builder().setSharedSecret(secretKey)
 
@@ -72,7 +82,7 @@ class V2LocalStandardIT {
         assertThat parsedResult, is(PasetoMatcher.paseto(v2LocalFromClaims(claims, footer)))
     }
 
-    @DataProvider()
+    @DataProvider
     Object[][] officialV2LocalTestVectors() {
 
         SecretKey secretKey = Keys.secretKey(Hex.decodeHex("707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"))

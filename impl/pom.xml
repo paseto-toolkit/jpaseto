@@ -43,9 +43,19 @@
         </dependency>
 
         <dependency>
+            <groupId>dev.paseto</groupId>
+            <artifactId>jpaseto-jackson</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.13</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

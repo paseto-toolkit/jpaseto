@@ -18,7 +18,6 @@ package dev.paseto.jpaseto.impl;
 import com.google.auto.service.AutoService;
 import dev.paseto.jpaseto.PasetoV1LocalBuilder;
 import dev.paseto.jpaseto.impl.crypto.V1LocalCryptoProvider;
-import dev.paseto.jpaseto.lang.Services;
 
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
@@ -35,7 +34,7 @@ public class DefaultPasetoV1LocalBuilder extends AbstractPasetoBuilder<PasetoV1L
     private final V1LocalCryptoProvider cryptoProvider;
 
     public DefaultPasetoV1LocalBuilder() {
-        this(Services.loadFirst(V1LocalCryptoProvider.class));
+        this(CryptoProviders.v1LocalCryptoProvider());
     }
 
     DefaultPasetoV1LocalBuilder(V1LocalCryptoProvider cryptoProvider) {

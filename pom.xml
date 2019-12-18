@@ -101,6 +101,12 @@
                 <version>1.0-rc6</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>1.64</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -130,7 +136,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 
     <build>
         <pluginManagement>
@@ -219,6 +224,29 @@
                         </licenseMapping>
                         <includeScopes>compile</includeScopes>
                     </configuration>
+                    <dependencies>
+                        <!-- needed for java 11 -->
+                        <dependency>
+                            <groupId>javax.xml.bind</groupId>
+                            <artifactId>jaxb-api</artifactId>
+                            <version>2.1</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.sun.xml.bind</groupId>
+                            <artifactId>jaxb-core</artifactId>
+                            <version>2.1.14</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.sun.xml.bind</groupId>
+                            <artifactId>jaxb-impl</artifactId>
+                            <version>2.1.14</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.sun.activation</groupId>
+                            <artifactId>jakarta.activation</artifactId>
+                            <version>1.2.1</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -16,12 +16,14 @@
 package dev.paseto.jpaseto.impl;
 
 import dev.paseto.jpaseto.RequiredTypeException;
+import dev.paseto.jpaseto.lang.DateFormats;
 
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -39,6 +41,10 @@ abstract class ClaimsMap implements Map<String, Object> {
     // TODO: add link to message
 
     private final Map<String, Object> claims;
+
+    ClaimsMap() {
+        this(new HashMap<>());
+    }
 
     public ClaimsMap(Map<String, Object> claims) {
         this.claims = claims;
@@ -71,7 +77,11 @@ abstract class ClaimsMap implements Map<String, Object> {
 
     @Override
     public Object put(String key, Object value) {
-        return claims.put(key, value);
+        if (value == null) {
+            return claims.remove(key);
+        } else {
+            return claims.put(key, value);
+        }
     }
 
     @Override
@@ -81,7 +91,10 @@ abstract class ClaimsMap implements Map<String, Object> {
 
     @Override
     public void putAll(Map<? extends String, ?> m) {
-        claims.putAll(m);
+        if (m == null) {
+            return;
+        }
+        m.forEach(this::put);
     }
 
     @Override
@@ -162,37 +175,25 @@ abstract class ClaimsMap implements Map<String, Object> {
         return Objects.hash(claims);
     }
 
+    public String toString() {
+        return claims.toString();
+    }
+
     protected static Instant toSpecDate(Object v, String name) {
         if (v == null) {
             return null;
-            // TODO: not sure if this is valid, as the Paseto spec mandates ISO 8601
-        } else if (v instanceof Number) {
-            // https://github.com/jwtk/jjwt/issues/122:
-            // The JWT RFC *mandates* NumericDate values are represented as seconds.
-            // Because Because java.util.Date requires milliseconds, we need to multiply by 1000:
-            long seconds = ((Number) v).longValue();
-            v = seconds * 1000;
-        } else if (v instanceof String) {
-            // https://github.com/jwtk/jjwt/issues/122
-            // The JWT RFC *mandates* NumericDate values are represented as seconds.
-            // Because Because java.util.Date requires milliseconds, we need to multiply by 1000:
-            try {
-                long seconds = Long.parseLong((String) v);
-                v = seconds * 1000;
-            } catch (NumberFormatException ignored) {
-                // ignored
-            }
         }
-        //v would have been normalized to milliseconds if it was a number value, so perform normal date conversion:
         return toInstant(v, name);
     }
 
     protected static Instant toInstant(Object v, String name) {
         if (v == null) {
             return null;
+        } else if (v instanceof Instant) {
+            return (Instant) v;
         } else if (v instanceof Date) {
             return ((Date) v).toInstant();
-        } else if (v instanceof Calendar) { //since 0.10.0
+        } else if (v instanceof Calendar) {
             return ((Calendar) v).toInstant();
         } else if (v instanceof Number) {
             //assume millis:

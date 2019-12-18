@@ -15,9 +15,7 @@
  */
 package dev.paseto.jpaseto.its
 
-import dev.paseto.jpaseto.Paseto
-import dev.paseto.jpaseto.PasetoV2PublicBuilder
-import dev.paseto.jpaseto.Pasetos
+import dev.paseto.jpaseto.*
 import dev.paseto.jpaseto.lang.Keys
 import org.apache.commons.codec.binary.Hex
 import org.testng.annotations.DataProvider
@@ -26,15 +24,32 @@ import org.testng.annotations.Test
 import java.security.PrivateKey
 import java.security.PublicKey
 
-import static dev.paseto.jpaseto.its.Util.clockForVectors
-import static dev.paseto.jpaseto.its.Util.v2PublicFromClaims
+import static dev.paseto.jpaseto.its.Util.*
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.is
 
-class V2PublicStandardIT {
+class V2PublicIT {
+
+    @Test
+    void invalidPublicKeyDecode() {
+
+        PublicKey wrongPublicKey = Keys.ed25519PublicKey(Hex.decodeHex('1111111111111111111111111111111111111111111111111111111111111111'))
+
+        def token = 'v2.public.eyJkYXRhIjoidGhpcyBpcyBhIHNpZ25lZCBtZXNzYWdlIiwiZXhwIjoiMjAxOS0wMS0wMVQwMDowMDowMCswMDowMCJ9HQr8URrGntTu7Dz9J2IF23d1M7-9lH9xiqdGyJNvzp4angPW5Esc7C5huy_M8I8_DjJK2ZXC2SUYuOFM-Q_5Cw'
+
+            PasetoParser parser = Pasetos.parserBuilder()
+                .setClock(clockForVectors())
+                .setPublicKey(wrongPublicKey) // this was signed with a different key
+                .build()
+
+        // an incorrect key will generate a different auth key, and will fail before the cipher
+        expect PasetoSignatureException, {
+            parser.parse(token)
+        }
+    }
 
     @Test(dataProvider = "officialV2PublicTestVectors")
-    void officialV2PublicVectorsTest(String expectedToken, PublicKey publicKey, PrivateKey privateKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
+    void officialVectorsV2PublicVectorsTest(String expectedToken, PublicKey publicKey, PrivateKey privateKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
 
         // create to token
         PasetoV2PublicBuilder builder = Pasetos.v2Public().builder()
@@ -64,7 +79,7 @@ class V2PublicStandardIT {
         assertThat(result, PasetoMatcher.paseto(v2PublicFromClaims(claims, footer)))
     }
 
-    @DataProvider()
+    @DataProvider
     Object[][] officialV2PublicTestVectors() {
 
         PrivateKey privateKey = Keys.ed25519PrivateKey(Hex.decodeHex('b4cbfb43df4ce210727d953e4a713307fa19bb7d9f85041438d9e11b942a3774' +

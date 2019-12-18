@@ -22,8 +22,8 @@ package dev.paseto.jpaseto;
  */
 public abstract class ClaimPasetoException extends PasetoException {
 
-    public static final String INCORRECT_EXPECTED_CLAIM_MESSAGE_TEMPLATE = "Expected %s claim to be: %s, but was: %s.";
-    public static final String MISSING_EXPECTED_CLAIM_MESSAGE_TEMPLATE = "Expected %s claim to be: %s, but was not present in the paseto claims.";
+    public static final String INCORRECT_EXPECTED_CLAIM_MESSAGE_TEMPLATE = "Expected '%s' claim to be %s, but was: '%s'.";
+    public static final String MISSING_EXPECTED_CLAIM_MESSAGE_TEMPLATE = "Expected '%s' claim to be %s, but was not present in the paseto claims.";
 
     private final Paseto paseto;
 

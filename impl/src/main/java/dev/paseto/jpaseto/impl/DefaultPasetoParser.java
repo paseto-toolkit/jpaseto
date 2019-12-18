@@ -31,6 +31,7 @@ import dev.paseto.jpaseto.UnsupportedPasetoException;
 import dev.paseto.jpaseto.Version;
 import dev.paseto.jpaseto.io.Deserializer;
 import dev.paseto.jpaseto.lang.Assert;
+import dev.paseto.jpaseto.lang.DateFormats;
 import dev.paseto.jpaseto.lang.DescribedPredicate;
 
 import javax.crypto.SecretKey;
@@ -50,15 +51,17 @@ class DefaultPasetoParser implements PasetoParser {
     private final KeyResolver keyResolver;
     private final Deserializer<Map<String, Object>> deserializer;
     private final Clock clock;
-    private final Duration allowedClockSkewMillis;
+    private final Duration allowedClockSkew;
     private final Map<String, Predicate<Object>> userExpectedClaimsMap;
+    private final Map<String, Predicate<Object>> userExpectedFooterClaimsMap;
 
-    DefaultPasetoParser(KeyResolver keyResolver, Deserializer<Map<String, Object>> deserializer, Clock clock, Duration allowedClockSkewMillis, Map<String, Predicate<Object>> expectedClaimsMap) {
+    DefaultPasetoParser(KeyResolver keyResolver, Deserializer<Map<String, Object>> deserializer, Clock clock, Duration allowedClockSkew, Map<String, Predicate<Object>> expectedClaimsMap, Map<String, Predicate<Object>> expectedFooterClaimsMap) {
         this.keyResolver = keyResolver;
         this.deserializer = deserializer;
         this.clock = clock;
-        this.allowedClockSkewMillis = allowedClockSkewMillis;
+        this.allowedClockSkew = allowedClockSkew;
         this.userExpectedClaimsMap = Collections.unmodifiableMap(expectedClaimsMap);
+        this.userExpectedFooterClaimsMap = Collections.unmodifiableMap(expectedFooterClaimsMap);
     }
 
     @Override
@@ -84,12 +87,15 @@ class DefaultPasetoParser implements PasetoParser {
         } else if (version == Version.V1 && purpose == Purpose.PUBLIC) {
             paseto = v1Public(payloadBytes, footerBytes);
         } else {
+            // Cannot reach this point unless the Version and/or Purpose enum have been changed
+            // parsing those enums will fail before this point
             throw new UnsupportedPasetoException("Paseto token with header: '" + version.toString() + "." + purpose.toString() +".' is not supported.");
         }
 
         verifyExpiration(paseto);
         verifyNotBefore(paseto);
         validateExpectedClaims(paseto);
+        validateExpectedFooterClaims(paseto);
 
         return paseto;
     }
@@ -99,6 +105,8 @@ class DefaultPasetoParser implements PasetoParser {
         FooterClaims footer = toFooter(footerBytes);
 
         SecretKey sharedSecret = keyResolver.resolveSharedKey(Version.V2, Purpose.LOCAL, footer);
+        Assert.notNull(sharedSecret, "A shared secret could not be resolved.  A shared secret must be configured in " +
+                "'Pasetos.parserBuilder().setSharedSecret(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
         byte[] payload = CryptoProviders.v2LocalCryptoProvider().decrypt(encryptedBytes, footerBytes, sharedSecret);
         Map<String, Object> claims = deserializer.deserialize(payload);
         return new DefaultPaseto(Version.V2, Purpose.LOCAL, new DefaultClaims(claims), footer);
@@ -113,6 +121,8 @@ class DefaultPasetoParser implements PasetoParser {
         byte[] signature = Arrays.copyOfRange(payload, payload.length - 256, payload.length);
 
         PublicKey publicKey = keyResolver.resolvePublicKey(Version.V1, Purpose.PUBLIC, footer);
+        Assert.notNull(publicKey, "A public key could not be resolved.  A public key must be configured in " +
+                "'Pasetos.parserBuilder().setPublicKey(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
         boolean valid = CryptoProviders.v1PublicCryptoProvider().verify(message, footerBytes, signature, publicKey);
         if (!valid) {
             throw new PasetoSignatureException("Signature could not be validated in paseto token.");
@@ -126,7 +136,9 @@ class DefaultPasetoParser implements PasetoParser {
         // parse footer to map (if available)
         FooterClaims footer = toFooter(footerBytes);
 
-        SecretKey sharedSecret = keyResolver.resolveSharedKey(Version.V2, Purpose.LOCAL, footer);
+        SecretKey sharedSecret = keyResolver.resolveSharedKey(Version.V1, Purpose.LOCAL, footer);
+        Assert.notNull(sharedSecret, "A shared secret could not be resolved.  A shared secret must be configured in " +
+                "'Pasetos.parserBuilder().setSharedSecret(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
         byte[] nonce = Arrays.copyOf(encryptedBytes, 32);
         byte[] payload = CryptoProviders.v1LocalCryptoProvider().decrypt(encryptedBytes, footerBytes, nonce, sharedSecret);
         Map<String, Object> claims = deserializer.deserialize(payload);
@@ -140,7 +152,9 @@ class DefaultPasetoParser implements PasetoParser {
         byte[] message = Arrays.copyOf(payload, payload.length - 64);
         byte[] signature = Arrays.copyOfRange(payload, payload.length - 64, payload.length);
 
-        PublicKey publicKey = keyResolver.resolvePublicKey(Version.V1, Purpose.PUBLIC, footer);
+        PublicKey publicKey = keyResolver.resolvePublicKey(Version.V2, Purpose.PUBLIC, footer);
+        Assert.notNull(publicKey, "A public key could not be resolved.  A public key must be configured in " +
+                "'Pasetos.parserBuilder().setPublicKey(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
         boolean valid = CryptoProviders.v2PublicCryptoProvider().verify(message, footerBytes, signature, publicKey);
         if (!valid) {
             throw new PasetoSignatureException("Signature could not be validated in paseto token.");
@@ -152,7 +166,7 @@ class DefaultPasetoParser implements PasetoParser {
 
     private FooterClaims toFooter(byte[] footerBytes) {
         if (footerBytes.length != 0) {
-            if (footerBytes[0] == '{') {
+            if (footerBytes[0] == '{' && footerBytes[footerBytes.length - 1] == '}') { // assume JSON
                 return new DefaultFooterClaims(deserializer.deserialize(footerBytes));
             } else {
                 return  new DefaultFooterClaims(new String(footerBytes, StandardCharsets.UTF_8));
@@ -176,7 +190,7 @@ class DefaultPasetoParser implements PasetoParser {
         Instant nbf = paseto.getClaims().getNotBefore();
         if (nbf != null) {
 
-            Instant min = now.plus(allowedClockSkewMillis);
+            Instant min = now.plus(allowedClockSkew);
             if (min.isBefore(nbf)) {
                 String nbfVal = DateFormats.formatIso8601(nbf);
                 String nowVal = DateFormats.formatIso8601(now);
@@ -185,7 +199,7 @@ class DefaultPasetoParser implements PasetoParser {
 
                 String msg = "JWT must not be accepted before " + nbfVal + ". Current time: " + nowVal +
                     ", a difference of " + diff + ".  Allowed clock skew: " +
-                    this.allowedClockSkewMillis + ".";
+                    this.allowedClockSkew + ".";
                 throw new PrematurePasetoException(paseto, msg);
             }
         }
@@ -206,7 +220,7 @@ class DefaultPasetoParser implements PasetoParser {
 
         if (exp != null) {
 
-            Instant max = now.minus(allowedClockSkewMillis);
+            Instant max = now.minus(allowedClockSkew);
             if (max.isAfter(exp)) {
                 String expVal = DateFormats.formatIso8601(exp);
                 String nowVal = DateFormats.formatIso8601(now);
@@ -215,16 +229,24 @@ class DefaultPasetoParser implements PasetoParser {
 
                 String msg = "Paseto expired at " + expVal + ". Current time: " + nowVal + ", a difference of " +
                         diff + ".  Allowed clock skew: " +
-                        allowedClockSkewMillis + ".";
+                        allowedClockSkew + ".";
                 throw new ExpiredPasetoException(paseto, msg);
             }
         }
     }
 
     private void validateExpectedClaims(Paseto paseto) {
-        userExpectedClaimsMap.forEach((claimName, predicate) -> {
+        validateExpected(paseto, paseto.getClaims(), userExpectedClaimsMap);
+    }
 
-            Object actualClaimValue = normalize(paseto.getClaims().get(paseto));
+    private void validateExpectedFooterClaims(Paseto paseto) {
+        validateExpected(paseto, paseto.getFooter(), userExpectedFooterClaimsMap);
+    }
+
+        private void validateExpected(Paseto paseto, Map<String, Object> claims, Map<String, Predicate<Object>> expectedClaims) {
+        expectedClaims.forEach((claimName, predicate) -> {
+
+            Object actualClaimValue = normalize(claims.get(claimName));
 
             InvalidClaimException invalidClaimException = null;
 

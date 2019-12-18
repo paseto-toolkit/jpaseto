@@ -42,9 +42,10 @@ public class DefaultPasetoParserBuilder implements PasetoParserBuilder {
     private KeyResolver keyResolver = null;
     private Deserializer<Map<String, Object>> deserializer;
     private Clock clock = Clock.systemUTC();
-    private Duration allowedClockSkewMillis = Duration.ofMillis(0);
+    private Duration allowedClockSkew = Duration.ofMillis(0);
 
     private final Map<String, Predicate<Object>> expectedClaimsMap = new HashMap<>();
+    private final Map<String, Predicate<Object>> expectedFooterClaimsMap = new HashMap<>();
 
     @Override
     public PasetoParserBuilder setKeyResolver(KeyResolver keyResolver) {
@@ -86,22 +87,11 @@ public class DefaultPasetoParserBuilder implements PasetoParserBuilder {
             throw new IllegalStateException("Both a KeyResolver and a publicKey/sharedSecret cannot be used together, use one or the other");
         }
 
-        KeyResolver tmpKeyResolver = keyResolver;
-        if (tmpKeyResolver == null) {
-            tmpKeyResolver = new KeyResolver() {
-                @Override
-                public PublicKey resolvePublicKey(Version version, Purpose purpose, FooterClaims footer) {
-                    return publicKey;
-                }
+        KeyResolver tmpKeyResolver = keyResolver != null
+                ? keyResolver
+                : new SimpleKeyResolver(publicKey, sharedSecret);
 
-                @Override
-                public SecretKey resolveSharedKey(Version version, Purpose purpose, FooterClaims footer) {
-                    return sharedSecret;
-                }
-            };
-        }
-
-        return new DefaultPasetoParser(tmpKeyResolver, tmpDeserializer, clock, allowedClockSkewMillis, expectedClaimsMap);
+        return new DefaultPasetoParser(tmpKeyResolver, tmpDeserializer, clock, allowedClockSkew, expectedClaimsMap, expectedFooterClaimsMap);
     }
 
 
@@ -114,6 +104,14 @@ public class DefaultPasetoParserBuilder implements PasetoParserBuilder {
     }
 
     @Override
+    public PasetoParserBuilder requireFooter(String claimName, Predicate<Object> value) {
+        Assert.hasText(claimName, "claim name cannot be null or empty.");
+        Assert.notNull(value, "The value cannot be null for claim name: " + claimName);
+        expectedFooterClaimsMap.put(claimName, value);
+        return this;
+    }
+
+    @Override
     public PasetoParserBuilder setClock(Clock clock) {
         Assert.notNull(clock, "Clock instance cannot be null.");
         this.clock = clock;
@@ -121,8 +119,33 @@ public class DefaultPasetoParserBuilder implements PasetoParserBuilder {
     }
 
     @Override
-    public PasetoParserBuilder setAllowedClockSkewSeconds(Duration allowedClockSkewMillis) {
-        this.allowedClockSkewMillis = allowedClockSkewMillis;
+    public PasetoParserBuilder setAllowedClockSkew(Duration allowedClockSkewMillis) {
+        this.allowedClockSkew = allowedClockSkewMillis;
         return this;
+    }
+
+    private static class SimpleKeyResolver implements KeyResolver {
+
+        private final PublicKey publicKey;
+        private final SecretKey sharedSecret;
+
+        private SimpleKeyResolver(PublicKey publicKey, SecretKey sharedSecret) {
+            this.publicKey = publicKey;
+            this.sharedSecret = sharedSecret;
+        }
+
+        @Override
+        public PublicKey resolvePublicKey(Version version, Purpose purpose, FooterClaims footer) {
+            Assert.notNull(publicKey, "A public key has not been configured.  A public key must be configured in " +
+                "'Pasetos.parserBuilder().setPublicKey(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
+            return publicKey;
+        }
+
+        @Override
+        public SecretKey resolveSharedKey(Version version, Purpose purpose, FooterClaims footer) {
+            Assert.notNull(sharedSecret, "A shared secret has not been configured.  A shared secret must be configured in " +
+                "'Pasetos.parserBuilder().setSharedSecret(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
+            return sharedSecret;
+        }
     }
 }

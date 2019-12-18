@@ -21,6 +21,7 @@ import dev.paseto.jpaseto.Version
 import dev.paseto.jpaseto.impl.DefaultClaims
 import dev.paseto.jpaseto.impl.DefaultFooterClaims
 import dev.paseto.jpaseto.impl.DefaultPaseto
+import org.testng.Assert
 
 import java.time.Clock
 import java.time.Instant
@@ -50,5 +51,17 @@ class Util {
 
     static Clock clockForVectors() {
         return Clock.fixed(Instant.ofEpochMilli(1544490000000), ZoneOffset.UTC) // December 11, 2018 01:00:00
+    }
+
+    static <T extends Throwable> T expect(Class<T> catchMe, Closure closure) {
+        try {
+            closure.call()
+            Assert.fail("Expected ${catchMe.getName()} to be thrown.")
+        } catch(e) {
+            if (!e.class.isAssignableFrom(catchMe)) {
+                throw e
+            }
+            return e
+        }
     }
 }

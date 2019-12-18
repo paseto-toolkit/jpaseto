@@ -110,7 +110,7 @@ public class JacksonDeserializer<T> implements Deserializer<T> {
      * values to types based on {@code claimTypeMap}.
      */
     private static class MappedTypeDeserializer extends UntypedObjectDeserializer {
-
+        private static final long serialVersionUID = 1L;
         private final Map<String, Class> claimTypeMap;
 
         private MappedTypeDeserializer(Map<String, Class> claimTypeMap) {
