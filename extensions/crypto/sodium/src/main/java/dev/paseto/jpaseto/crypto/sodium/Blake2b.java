@@ -22,10 +22,12 @@ import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-class Blake2b {
+final class Blake2b {
 
     private Blake2b() {}
 
+    // TODO: This has been fixed in https://issues.apache.org/jira/browse/TUWENI-30
+    // See branch 'tuweni-snapshot' for fix, which can be merged as soon as Tuweni performs a release
     static byte[] hash(int hashLength, byte[] bytes, byte[] key) {
 
         // static int crypto_generichash_blake2b(byte[] out, long outlen, byte[] in, long inlen, byte[] key, long keylen)
