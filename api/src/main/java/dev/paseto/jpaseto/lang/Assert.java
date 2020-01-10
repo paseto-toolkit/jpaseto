@@ -34,40 +34,6 @@ public final class Assert {
     }
 
     /**
-     * Assert a boolean expression, throwing <code>IllegalArgumentException</code>
-     * if the test result is <code>false</code>.
-     * <pre class="code">Assert.isTrue(i &gt; 0);</pre>
-     * @param expression a boolean expression
-     * @throws IllegalArgumentException if expression is <code>false</code>
-     */
-    public static void isTrue(boolean expression) {
-        isTrue(expression, "[Assertion failed] - this expression must be true");
-    }
-
-    /**
-     * Assert that an object is <code>null</code> .
-     * <pre class="code">Assert.isNull(value, "The value must be null");</pre>
-     * @param object the object to check
-     * @param message the exception message to use if the assertion fails
-     * @throws IllegalArgumentException if the object is not <code>null</code>
-     */
-    public static void isNull(Object object, String message) {
-        if (object != null) {
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-    /**
-     * Assert that an object is <code>null</code> .
-     * <pre class="code">Assert.isNull(value);</pre>
-     * @param object the object to check
-     * @throws IllegalArgumentException if the object is not <code>null</code>
-     */
-    public static void isNull(Object object) {
-        isNull(object, "[Assertion failed] - the object argument must be null");
-    }
-
-    /**
      * Assert that an object is not <code>null</code> .
      * <pre class="code">Assert.notNull(clazz, "The class must not be null");</pre>
      * @param object the object to check
@@ -78,42 +44,6 @@ public final class Assert {
         if (object == null) {
             throw new IllegalArgumentException(message);
         }
-    }
-
-    /**
-     * Assert that an object is not <code>null</code> .
-     * <pre class="code">Assert.notNull(clazz);</pre>
-     * @param object the object to check
-     * @throws IllegalArgumentException if the object is <code>null</code>
-     */
-    public static void notNull(Object object) {
-        notNull(object, "[Assertion failed] - this argument is required; it must not be null");
-    }
-
-    /**
-     * Assert that the given String is not empty; that is,
-     * it must not be <code>null</code> and not the empty String.
-     * <pre class="code">Assert.hasLength(name, "Name must not be empty");</pre>
-     * @param text the String to check
-     * @param message the exception message to use if the assertion fails
-     * @see Strings#hasLength
-     */
-    public static void hasLength(String text, String message) {
-        if (!Strings.hasLength(text)) {
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-    /**
-     * Assert that the given String is not empty; that is,
-     * it must not be <code>null</code> and not the empty String.
-     * <pre class="code">Assert.hasLength(name);</pre>
-     * @param text the String to check
-     * @see Strings#hasLength
-     */
-    public static void hasLength(String text) {
-        hasLength(text,
-                  "[Assertion failed] - this String argument must have length; it must not be null or empty");
     }
 
     /**
@@ -128,17 +58,5 @@ public final class Assert {
         if (!Strings.hasText(text)) {
             throw new IllegalArgumentException(message);
         }
-    }
-
-    /**
-     * Assert that the given String has valid text content; that is, it must not
-     * be <code>null</code> and must contain at least one non-whitespace character.
-     * <pre class="code">Assert.hasText(name, "'name' must not be empty");</pre>
-     * @param text the String to check
-     * @see Strings#hasText
-     */
-    public static void hasText(String text) {
-        hasText(text,
-                "[Assertion failed] - this String argument must have text; it must not be null, empty, or blank");
     }
 }
