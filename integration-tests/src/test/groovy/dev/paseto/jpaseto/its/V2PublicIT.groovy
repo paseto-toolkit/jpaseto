@@ -52,7 +52,7 @@ class V2PublicIT {
     void officialVectorsV2PublicVectorsTest(String expectedToken, PublicKey publicKey, PrivateKey privateKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
 
         // create to token
-        PasetoV2PublicBuilder builder = Pasetos.v2Public().builder()
+        PasetoV2PublicBuilder builder = Pasetos.V2.PUBLIC.builder()
             .setPrivateKey(privateKey)
 
         claims.forEach { key, value ->

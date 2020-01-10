@@ -134,7 +134,7 @@ class DefaultPasetoParserBuilderTest {
 
     @Test
     void invalidNotBeforeTest() {
-        String token = Pasetos.v1Public().builder()
+        String token = Pasetos.V1.PUBLIC.builder()
             .setPrivateKey(keyPair.getPrivate())
             .setNotBefore(Instant.now().plus(1, ChronoUnit.HOURS))
             .compact()
@@ -147,7 +147,7 @@ class DefaultPasetoParserBuilderTest {
 
     @Test
     void invalidExpireTest() {
-        String token = Pasetos.v1Public().builder()
+        String token = Pasetos.V1.PUBLIC.builder()
             .setPrivateKey(keyPair.getPrivate())
             .setExpiration(Instant.now().minus(1, ChronoUnit.HOURS))
             .compact()
@@ -161,7 +161,7 @@ class DefaultPasetoParserBuilderTest {
 
     @Test
     void requireKeyIdTest() {
-        String token = Pasetos.v1Public().builder()
+        String token = Pasetos.V1.PUBLIC.builder()
             .setPrivateKey(keyPair.getPrivate())
             .setKeyId("invalid")
             .compact()
@@ -177,7 +177,7 @@ class DefaultPasetoParserBuilderTest {
 
     @Test
     void missingKeyIdTest() {
-        String token = Pasetos.v1Public().builder()
+        String token = Pasetos.V1.PUBLIC.builder()
             .setPrivateKey(keyPair.getPrivate())
             .compact()
 
@@ -192,7 +192,7 @@ class DefaultPasetoParserBuilderTest {
 
     @Test(dataProvider = "requireClaims")
     void incorrectClaimTest(String claimName, Object value, Object invalidValue, Closure<PasetoParserBuilder> closure, Matcher<String> exceptionMessageMatcher) {
-        String token = Pasetos.v1Public().builder()
+        String token = Pasetos.V1.PUBLIC.builder()
             .setPrivateKey(keyPair.getPrivate())
             .claim(claimName, invalidValue)
             .compact()
@@ -208,7 +208,7 @@ class DefaultPasetoParserBuilderTest {
 
     @Test(dataProvider = "requireClaims")
     void missingClaimTest(String claimName, Object value, Object invalidValue, Closure<PasetoParserBuilder> closure, Matcher<String> exceptionMessageMatcher) {
-        String token = Pasetos.v1Public().builder()
+        String token = Pasetos.V1.PUBLIC.builder()
             .setPrivateKey(keyPair.getPrivate())
             .compact()
 

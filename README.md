@@ -274,15 +274,15 @@ Most complexity is hidden behind a convenient and readable builder-based [fluent
 
 ```java
 import dev.paseto.jpaseto.Pasetos;
-import dev.paseto.jpaseto.security.Keys; // TODO
+import dev.paseto.jpaseto.lang.Keys;
 import java.security.SecretKey;
 
 // We need a secret key, so we'll create one just for this example. Usually
 // the key would be read from your application configuration instead.
-SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // TODO
 // TODO: figure out what to do here  
 
-String token = Pasetos.v1Local().builder()
+String token = Pasetos.V1.LOCAL.builder()
     .setSubject("Joe")
     .setSharedSecret(key)
     .compact();
@@ -386,7 +386,7 @@ You create a Paseto token as follows:
 For example:
 
 ```java
-String token = Pasetos.v2Local().builder() // (1)
+String token = Pasetos.V2.LOCAL.builder() // (1)
     .setSubject("Bob")                     // (2) 
     .setSharedSecret(key)                  // (3)
     .compact();                            // (4)
@@ -401,7 +401,7 @@ If you need to set one or more footer parameters, you can simply call
 `PasetBuilder` `footerClaim` one or more times as needed:
 
 ```java
-String token = Pasetos.v2Public().builder()
+String token = Pasetos.V2.PUBLIC.builder()
     .setKeyId("myKeyId")
     .footerClaim("other", "data")
     // ... etc ...
@@ -433,7 +433,7 @@ specification.  They are:
 For example:
 
 ```java
-Pasetos.v1Public().builder()
+Pasetos.V1.PUBLIC.builder()
     .setIssuer("me")
     .setSubject("Bob")
     .setAudience("you")
@@ -451,7 +451,7 @@ If you need to set one or more custom claims that don't match the standard sette
 can simply call `PasetoBuilder` `claim` one or more times as needed:
 
 ```java
-Pasetos.v2Public().builder()
+Pasetos.V2.PUBLIC.builder()
     .claim("hello", "world")
     // ... etc ...
 ```
@@ -571,7 +571,7 @@ being created, for example:
 
 PublicKey signingKey = getSigningKey();
 String keyId = getKeyId(signingKey); //any mechanism you have to associate a key with an ID is fine
-String token = Pasetos.v1Public().builder()
+String token = Pasetos.V1.PUBLIC.builder()
     .setKeyId(keyId)            // 1
     .setPublicKey(signingKey)   // 2
     .compact();
@@ -725,7 +725,7 @@ When creating a Paseto token:
 
 ```java
 Serializer<Map<String, Object>> serializer = getMySerializer(); //implement me
-Pasetos.v2Local().builder()
+Pasetos.V2.LOCAL.builder()
     .setSerializer(serializer)
     // ... etc ...
 ```

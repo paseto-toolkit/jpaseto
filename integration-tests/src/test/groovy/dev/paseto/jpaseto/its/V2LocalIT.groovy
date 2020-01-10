@@ -61,7 +61,7 @@ class V2LocalIT {
     @Test(dataProvider = "officialV2LocalTestVectors")
     void officialVectorsV2LocalEncodeTest(String token, SecretKey secretKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
 
-        PasetoBuilder pasetoBuilder = Pasetos.v2Local().builder().setSharedSecret(secretKey)
+        PasetoBuilder pasetoBuilder = Pasetos.V2.LOCAL.builder().setSharedSecret(secretKey)
 
         claims.forEach { key, value ->
             pasetoBuilder.claim(key, value)

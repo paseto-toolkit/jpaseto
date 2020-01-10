@@ -17,51 +17,61 @@ package dev.paseto.jpaseto;
 
 import dev.paseto.jpaseto.lang.Services;
 
+/**
+ * Factory class useful for creating instances of Paseto interfaces.
+ * @since 0.1
+ */
 public final class Pasetos {
 
     private Pasetos() {}
-
-    public static PasetosV2Local v2Local() {
-        return new PasetosV2Local();
-    }
-
-    public static PasetosV2Public v2Public() {
-        return new PasetosV2Public();
-    }
-
-    public static PasetosV1Local v1Local() {
-        return new PasetosV1Local();
-    }
-
-    public static PasetosV1Public v1Public() {
-        return new PasetosV1Public();
-    }
 
     public static PasetoParserBuilder parserBuilder() {
         return Services.loadFirst(PasetoParserBuilder.class);
     }
 
-    public static class PasetosV2Local {
+    public static final class V2Local {
+        private V2Local() {}
+
         public PasetoV2LocalBuilder builder() {
             return Services.loadFirst(PasetoV2LocalBuilder.class);
         }
     }
 
-    public static class PasetosV2Public {
+    public static final class V2Public {
+        private V2Public() {}
+
         public PasetoV2PublicBuilder builder() {
             return Services.loadFirst(PasetoV2PublicBuilder.class);
         }
     }
 
-    public static class PasetosV1Local {
+    public static final class V1Local {
+        private V1Local() {}
+
         public PasetoV1LocalBuilder builder() {
             return Services.loadFirst(PasetoV1LocalBuilder.class);
         }
     }
 
-    public static class PasetosV1Public {
+    public static final class V1Public {
+        private V1Public() {}
+
         public PasetoV1PublicBuilder builder() {
             return Services.loadFirst(PasetoV1PublicBuilder.class);
         }
+    }
+
+    public static final class V1 {
+        public static final V1Public PUBLIC = new V1Public();
+        public static final V1Local LOCAL = new V1Local();
+
+        private V1() {}
+    }
+
+    public static final class V2 {
+        public static final V2Public PUBLIC = new V2Public();
+        public static final V2Local LOCAL = new V2Local();
+
+        private V2() {}
     }
 }
