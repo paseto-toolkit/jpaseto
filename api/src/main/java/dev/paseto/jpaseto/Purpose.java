@@ -15,6 +15,10 @@
  */
 package dev.paseto.jpaseto;
 
+/**
+ * Enum representing Paseto purposes.
+ * @since 0.1
+ */
 public enum Purpose {
     LOCAL("local"),
     PUBLIC("public");

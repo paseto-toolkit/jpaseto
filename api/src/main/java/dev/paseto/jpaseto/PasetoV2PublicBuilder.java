@@ -17,6 +17,10 @@ package dev.paseto.jpaseto;
 
 import java.security.PrivateKey;
 
+/**
+ * A builder for constructing Paseto v2.public tokens.
+ * @since 0.1
+ */
 public interface PasetoV2PublicBuilder extends PasetoBuilder<PasetoV2PublicBuilder> {
 
     PasetoV2PublicBuilder setPrivateKey(PrivateKey privateKey);

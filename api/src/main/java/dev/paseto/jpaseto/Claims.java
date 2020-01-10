@@ -18,6 +18,12 @@ package dev.paseto.jpaseto;
 import java.time.Instant;
 import java.util.Map;
 
+/**
+ * A map representing a the body of a paseto token. Along with get arbitrary values using the {@link Map} interface,
+ * methods to access registered claims.
+ * @see #get(String, Class)
+ * @since 0.1.0
+ */
 public interface Claims extends Map<String, Object> {
 
     /** Paseto {@code Issuer} claims parameter name: <code>"iss"</code>. */

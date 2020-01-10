@@ -17,6 +17,11 @@ package dev.paseto.jpaseto;
 
 import java.util.Map;
 
+/**
+ * A paseto footer. Paseto footers per spec can either be a String or a JSON block. To retrieve the footer value as a
+ * String use {@link FooterClaims#value()}.
+ * @since 0.1.0
+ */
 public interface FooterClaims extends Map<String, Object> {
 
     /** Paseto {@code Key ID} claims parameter name: <code>"kid"</code>, registered footer claim. */

@@ -17,6 +17,7 @@ package dev.paseto.jpaseto;
 
 
 /**
+ * Thrown when a paseto token cannot be verified.
  * @since 0.1.0
  */
 public class PasetoSecurityException extends PasetoException {

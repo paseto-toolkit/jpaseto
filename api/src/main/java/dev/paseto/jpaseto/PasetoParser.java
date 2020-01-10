@@ -15,6 +15,11 @@
  */
 package dev.paseto.jpaseto;
 
+/**
+ * A parser for parsing and validating paseto tokens.
+ * @see PasetoParserBuilder
+ * @since 0.1.0
+ */
 public interface PasetoParser {
 
     Paseto parse(String token);

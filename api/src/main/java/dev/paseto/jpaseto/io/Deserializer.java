@@ -16,6 +16,9 @@
 package dev.paseto.jpaseto.io;
 
 /**
+ *
+ * Deserialize/unmarshal bytes into an object of type {@code T}.
+ * @param <T> The type of object to read/unmarshal
  * @since 0.1.0
  */
 public interface Deserializer<T> {

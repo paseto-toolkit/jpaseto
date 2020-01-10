@@ -17,6 +17,10 @@ package dev.paseto.jpaseto;
 
 import javax.crypto.SecretKey;
 
+/**
+ * A builder for constructing Paseto v1.local tokens.
+ * @since 0.1
+ */
 public interface PasetoV1LocalBuilder extends PasetoBuilder<PasetoV1LocalBuilder> {
     PasetoV1LocalBuilder setSharedSecret(SecretKey sharedSecret);
 }

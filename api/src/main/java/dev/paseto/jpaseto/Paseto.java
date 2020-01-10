@@ -15,6 +15,10 @@
  */
 package dev.paseto.jpaseto;
 
+/**
+ * An expanded (not compact/serialized) paseto token.
+ * @since 0.1
+ */
 public interface Paseto {
 
     Version getVersion();
@@ -24,5 +28,4 @@ public interface Paseto {
     Claims getClaims();
 
     FooterClaims getFooter();
-
 }

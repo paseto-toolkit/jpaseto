@@ -16,6 +16,9 @@
 package dev.paseto.jpaseto.io;
 
 /**
+ *
+ * Serialize/marshal an object of type {@code T}.
+ * @param <T> The type of object to write/marshal
  * @since 0.1.0
  */
 public interface Serializer<T> {

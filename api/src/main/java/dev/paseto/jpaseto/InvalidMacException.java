@@ -17,6 +17,7 @@ package dev.paseto.jpaseto;
 
 
 /**
+ * Thrown when an encryption mac is invalid.
  * @since 0.1.0
  */
 public class InvalidMacException extends PasetoSecurityException {

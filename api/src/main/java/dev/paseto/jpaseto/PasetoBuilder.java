@@ -19,6 +19,12 @@ import dev.paseto.jpaseto.io.Serializer;
 
 import java.util.Map;
 
+/**
+ * A builder interface for creating paseto tokens.
+ * @see Pasetos
+ * @since 0.1
+ * @param <T> A child implementation of PasetoBuilder
+ */
 public interface PasetoBuilder<T extends PasetoBuilder> extends ClaimsMutator<T> {
 
     T setSerializer(Serializer<Map<String, Object>> serializer);

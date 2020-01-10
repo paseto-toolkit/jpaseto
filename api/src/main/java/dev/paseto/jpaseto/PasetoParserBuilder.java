@@ -27,6 +27,21 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.function.Predicate;
 
+/**
+ * A builder for constructing a {@link PasetoParser}. The constructed parser will work for multiple versions/purpose token
+ * when configured.
+ * <p>
+ * Typical usage:
+ * <pre>{@code
+ * Pasetos.parserBuilder()
+ *   .setSharedSecret(...)
+ *   // ...
+ *   .requireIssuer("https://example.com/issuer)
+ *   .build()
+ * }</pre>
+ *
+ * @since 0.1.0
+ */
 public interface PasetoParserBuilder {
 
     /**

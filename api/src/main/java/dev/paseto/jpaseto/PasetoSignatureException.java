@@ -16,6 +16,7 @@
 package dev.paseto.jpaseto;
 
 /**
+ * Thrown when public paseto tokens signature cannot be validated.
  * @since 0.1.0
  */
 public class PasetoSignatureException extends PasetoException {

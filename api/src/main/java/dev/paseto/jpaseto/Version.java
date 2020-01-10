@@ -15,7 +15,12 @@
  */
 package dev.paseto.jpaseto;
 
+/**
+ * Enum representing Paseto versions.
+ * @since 0.1
+ */
 public enum Version {
+
     V1("v1"),
     V2("v2");
 

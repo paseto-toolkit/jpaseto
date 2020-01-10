@@ -16,6 +16,7 @@
 package dev.paseto.jpaseto;
 
 /**
+ * A general IO exception for the JPaseto library.
  * @since 0.1.0
  */
 public class PasetoIOException extends PasetoException {

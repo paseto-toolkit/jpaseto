@@ -16,6 +16,7 @@
 package dev.paseto.jpaseto;
 
 /**
+ * Thrown when a key or secret cannot be created or is invalid.
  * @since 0.1.0
  */
 public class PasetoKeyException extends PasetoSecurityException {

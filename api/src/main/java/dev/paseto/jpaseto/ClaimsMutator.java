@@ -17,6 +17,12 @@ package dev.paseto.jpaseto;
 
 import java.time.Instant;
 
+/**
+ * An interface for setting claim values (body and footer). Along with setting values for  arbitrary claims, methods
+ * for each registered are also available i.e. {@link #setIssuer(String)}.
+ * @param <T> a child of ClaimsMutator used for method chaining.
+ * @since 0.1.0
+ */
 @SuppressWarnings("unchecked")
 interface ClaimsMutator<T extends ClaimsMutator> {
 
