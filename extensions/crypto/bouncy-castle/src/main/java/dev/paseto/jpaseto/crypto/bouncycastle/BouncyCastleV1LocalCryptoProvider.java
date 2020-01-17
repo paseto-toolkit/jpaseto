@@ -63,11 +63,11 @@ public class BouncyCastleV1LocalCryptoProvider implements V1LocalCryptoProvider 
     public byte[] decrypt(byte[] encryptedBytes, byte[] footer, byte[] nonce, SecretKey sharedSecret) {
 
         // 3
-        byte[] cipherText = Arrays.copyOfRange(encryptedBytes, 32, encryptedBytes.length - 48);
-        byte[] mac = Arrays.copyOfRange(encryptedBytes, encryptedBytes.length - 48, encryptedBytes.length);
-
         byte[] salt = Arrays.copyOf(nonce, 16);
         byte[] rightNonce = Arrays.copyOfRange(nonce, 16, nonce.length);
+
+        byte[] cipherText = Arrays.copyOfRange(encryptedBytes, 32, encryptedBytes.length - 48);
+        byte[] mac = Arrays.copyOfRange(encryptedBytes, encryptedBytes.length - 48, encryptedBytes.length);
 
         // 4
         byte[] encryptionKey = encryptionKey(sharedSecret, salt);

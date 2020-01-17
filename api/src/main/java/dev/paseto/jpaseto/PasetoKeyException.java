@@ -24,4 +24,8 @@ public class PasetoKeyException extends PasetoSecurityException {
     public PasetoKeyException(String message) {
         super(message);
     }
+
+    public PasetoKeyException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -15,6 +15,8 @@
  */
 package dev.paseto.jpaseto.impl.crypto;
 
+import dev.paseto.jpaseto.lang.Assert;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
@@ -26,7 +28,7 @@ public final class Hmacs {
 
     public static byte[] hmacSha384(byte[] key, byte[] input) {
         try {
-            Mac mac = Mac.getInstance("HmacSHA384"); //""HMac-SHA384"
+            Mac mac = Mac.getInstance("HmacSHA384"); //"HMac-SHA384"
             SecretKeySpec secretKeySpec = new SecretKeySpec(key, "HmacSHA384"); //"HMac-SHA384"
             mac.init(secretKeySpec);
             return mac.doFinal(input);
@@ -36,6 +38,7 @@ public final class Hmacs {
     }
 
     static byte[] createNonce(byte[] key, byte[] input) {
+        Assert.isTrue(key !=null && key.length == 32, "Key length must be 32 bytes");
         return Arrays.copyOf(Hmacs.hmacSha384(key, input), 32);
     }
 }

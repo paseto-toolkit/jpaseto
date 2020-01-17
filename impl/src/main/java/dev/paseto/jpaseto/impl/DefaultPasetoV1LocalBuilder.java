@@ -54,7 +54,7 @@ public class DefaultPasetoV1LocalBuilder extends AbstractPasetoBuilder<PasetoV1L
         byte[] footer = footerAsBytes();
 
         // 2
-        byte[] randomBytes = new byte[24];
+        byte[] randomBytes = new byte[32];
         try {
             SecureRandom.getInstanceStrong().nextBytes(randomBytes);
         } catch (NoSuchAlgorithmException e) {
