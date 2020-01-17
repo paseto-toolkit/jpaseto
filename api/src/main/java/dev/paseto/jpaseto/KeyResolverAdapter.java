@@ -60,7 +60,12 @@ public class KeyResolverAdapter implements KeyResolver {
                 throw new PasetoSignatureException("Failed to load RSA key.", e);
             }
         } else {
-            return Keys.ed25519PublicKey(resolvePublicKeyBytes(version, purpose, footer));
+            try {
+                KeyFactory keyFactory = KeyFactory.getInstance("Ed25519");
+                return keyFactory.generatePublic(new X509EncodedKeySpec(resolvePublicKeyBytes(version, purpose, footer)));
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                throw new PasetoSignatureException("Failed to load Ed25519 key.", e);
+            }
         }
     }
 

@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.paseto.jpaseto.impl.crypto;
+package dev.paseto.jpaseto.crypto.bouncycastle;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import com.google.auto.service.AutoService;
+import dev.paseto.jpaseto.impl.crypto.JcaV2PublicCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V2PublicCryptoProvider;
 
-public interface V2PublicCryptoProvider {
+@AutoService(V2PublicCryptoProvider.class)
+public class BouncyCastleV2PublicCryptoProvider extends JcaV2PublicCryptoProvider {
 
-    byte[] sign(byte[] payload, byte[] footer, PrivateKey privateKey);
-
-    boolean verify(byte[] message, byte[] footer, byte[] signature, PublicKey publicKey);
+    public BouncyCastleV2PublicCryptoProvider() {
+        BouncyCastleInitializer.enableBouncyCastle();
+    }
 }

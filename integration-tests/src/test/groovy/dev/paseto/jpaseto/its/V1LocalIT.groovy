@@ -31,7 +31,7 @@ class V1LocalIT {
 
     @Test
     void invalidSecretDecode() {
-        SecretKey sharedSecret = Keys.secretKey(Hex.decodeHex('1111111111111111111111111111111111111111111111111111111111111111'))
+        SecretKey sharedSecret = Keys.secretKey()
         def token = 'v1.local.WzhIh1MpbqVNXNt7-HbWvL-JwAym3Tomad9Pc2nl7wK87vGraUVvn2bs8BBNo7jbukCNrkVID0jCK2vr5bP18G78j1bOTbBcP9HZzqnraEdspcjd_PvrxDEhj9cS2MG5fmxtvuoHRp3M24HvxTtql9z26KTfPWxJN5bAJaAM6gos8fnfjJO8oKiqQMaiBP_Cqncmqw8'
 
         PasetoParser parser = Pasetos.parserBuilder()

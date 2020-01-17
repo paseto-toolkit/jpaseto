@@ -16,6 +16,7 @@
 package dev.paseto.jpaseto.impl;
 
 import dev.paseto.jpaseto.impl.crypto.JcaV1PublicCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.JcaV2PublicCryptoProvider;
 import dev.paseto.jpaseto.impl.crypto.V1LocalCryptoProvider;
 import dev.paseto.jpaseto.impl.crypto.V1PublicCryptoProvider;
 import dev.paseto.jpaseto.impl.crypto.V2LocalCryptoProvider;
@@ -39,6 +40,6 @@ final class CryptoProviders {
     }
 
     static V2PublicCryptoProvider v2PublicCryptoProvider() {
-        return  Services.loadFirst(V2PublicCryptoProvider.class);
+        return  Services.loadFirst(V2PublicCryptoProvider.class, new JcaV2PublicCryptoProvider());
     }
 }

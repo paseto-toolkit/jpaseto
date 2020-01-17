@@ -18,6 +18,7 @@ package dev.paseto.jpaseto.impl
 import dev.paseto.jpaseto.*
 import dev.paseto.jpaseto.io.Deserializer
 import dev.paseto.jpaseto.lang.DescribedPredicate
+import dev.paseto.jpaseto.lang.Keys
 import org.hamcrest.Matcher
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
@@ -38,7 +39,7 @@ import static org.mockito.Mockito.mock
 
 class DefaultPasetoParserBuilderTest {
 
-    KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair()
+    KeyPair keyPair = Keys.keyPairFor(Version.V1)
 
     DefaultPasetoParserBuilderTest() {
         BouncyCastleInitializer.enableBouncyCastle()

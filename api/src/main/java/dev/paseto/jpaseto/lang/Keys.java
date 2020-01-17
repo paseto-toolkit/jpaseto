@@ -15,56 +15,51 @@
  */
 package dev.paseto.jpaseto.lang;
 
+import dev.paseto.jpaseto.PasetoKeyException;
+import dev.paseto.jpaseto.Version;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 public final class Keys {
 
     private Keys() {}
 
-    public static PublicKey ed25519PublicKey(final byte[] bytes) {
-
-        return new PublicKey() {
-            @Override
-            public String getAlgorithm() {
-                return "Ed25519";
-            }
-
-            @Override
-            public String getFormat() {
-                return null;
-            }
-
-            @Override
-            public byte[] getEncoded() {
-                return bytes;
-            }
-        };
-    }
-
-    public static PrivateKey ed25519PrivateKey(final byte[] bytes) {
-
-        return new PrivateKey() {
-            @Override
-            public String getAlgorithm() {
-                return "Ed25519";
-            }
-
-            @Override
-            public String getFormat() {
-                return null;
-            }
-
-            @Override
-            public byte[] getEncoded() {
-                return bytes;
-            }
-        };
-    }
-
     public static SecretKey secretKey(final byte[] bytes) {
         return new SecretKeySpec(bytes, "none");
+    }
+
+    public static SecretKey secretKey() {
+        byte[] keyBytes = new byte[64];
+        try {
+            SecureRandom.getInstanceStrong().nextBytes(keyBytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new SecurityException("JVM does not provide a strong secure random number generator", e);
+        }
+        return new SecretKeySpec(keyBytes, "none");
+    }
+
+    public static KeyPair keyPairFor(Version version) {
+        if (Version.V1 == version) {
+            try {
+                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+                keyPairGenerator.initialize(2048);
+                return keyPairGenerator.generateKeyPair();
+            } catch (NoSuchAlgorithmException e) {
+                throw new PasetoKeyException("Failed to generate RSA key pair", e);
+            }
+        } else if (Version.V2 == version) {
+            try {
+                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("Ed25519");
+                return keyPairGenerator.generateKeyPair();
+            } catch (NoSuchAlgorithmException e) {
+                throw new PasetoKeyException("Failed to generate Ed25519 key pair", e);
+            }
+        }
+        throw new PasetoKeyException("Failed to generate keypair, version is not supported: "+ version);
     }
 }
