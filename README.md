@@ -5,12 +5,18 @@ JPaseto aims to be the easiest to use and understand library for creating and ve
 JPaseto is a Java implementation based exclusively on the [Paseto specification](https://paseto.io/rfc/). And is a 
 direct port of [JJWT](https://github.com/jwtk/jjwt/), if you are using JWTs check out that library.
 
-We've also added some convenience extensions that are not yet part of the specification, such as validation of the registered date claims.
+We've also added some convenience extensions that are not yet part of the specification, such as validation of the 
+registered date claims.
+
+The goal of this project is to provide a pure Java implementation of the Paseto specification. 
+
+**NOTE:** "v2.local" tokens currently require the use of a native library "libsodium", a pure java implementation will be 
+available in the future. (see below for more details)
 
 ## Table of Contents
 
 * [Features](#features)
-  * [Currently Unsupported Features](#features-unsupported)
+  * [Differences Between Other Java Paseto Implementations](#other-options)
 * [Community](#community)
   * [Getting Help](#help)
     * [Questions](#help-questions)
@@ -59,12 +65,15 @@ We've also added some convenience extensions that are not yet part of the specif
     * Claim POJO marshaling and unmarshaling when using a compatible JSON parser (e.g. Jackson) 
     * and more...
     
-<a name="features-unsupported"></a>
-### Currently Unsupported Features
+<a name="other-options"></a>
+### Differences Between Other Java Paseto Implementations
 
-- N/A
+Why choose this library over the other Java Paseto implementations?
 
-These features will be implemented in a future release.  Community contributions are welcome!
+- Fluent API
+- Available on Maven Central (coming soon!)
+- Low dependency count(with the exception of libsodium)
+- Already using JJWT, this library works the same way
 
 <a name="community"></a>
 ## Community
@@ -84,7 +93,7 @@ about something, please [ask your question here](https://stackoverflow.com/quest
 If you believe you have found a bug or would like to suggest a feature enhancement, please create a new GitHub issue, 
 however:
 
-**Please do not create a GitHub issue to ask a question.**  
+**Please do not create a GitHub issue to ask a question.**
 
 We use GitHub Issues to track actionable work that requires changes to JPaseto's design and/or codebase.  If you have a 
 usability question, instead please 
@@ -279,8 +288,7 @@ import java.security.SecretKey;
 
 // We need a secret key, so we'll create one just for this example. Usually
 // the key would be read from your application configuration instead.
-SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // TODO
-// TODO: figure out what to do here  
+SecretKey key = Keys.secretKey()
 
 String token = Pasetos.V1.LOCAL.builder()
     .setSubject("Joe")
@@ -299,11 +307,10 @@ In this case, we are:
 The resultant `token` String looks like this:
 
 ```
-// TODO add a token here
-eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKb2UifQ.1KP0SsvENi7Uz1oQc07aXTL7kpQG5jBNIybqr60AlD4
+v1.local.CuizxAzVIz5bCqAjsZpXXV5mk_WWGHbVxmdF81DORwyYcMLvzoUHUmS_VKvJ1hn5zXyoMkygkEYLM2LM00uBI3G9gXC5VrZCUM-BLZo1q9IDIncAZTxYkE1NUTMz
 ```
 
-Now let's verify the Paseto (parsing tokens with invalid signatures or publc keys will throw an exception):
+Now let's verify the Paseto (parsing tokens with invalid signatures or public keys will throw an exception):
 
 ```java
 assert Pasetos.parserBuilder().setSharedSecret(key).build().parse(token).getClaims().getSubject().equals("Joe");
@@ -331,35 +338,18 @@ try {
 <a name="key-create"></a>
 ### Creating Safe Keys
 
-If you don't want to think about bit length requirements or just want to make your life easier, JPaseto has
-provided the `dev.paseto.jpaseto.security.Keys` utility class that can generate sufficiently secure keys.
-// TODO
+If you don't want to think about key requirements or just want to make your life easier, JPaseto has
+provided the `dev.paseto.jpaseto.lang.Keys` utility class that can generate sufficiently secure keys.
 
 <a name="key-create-secret"></a>
 #### Secret Keys
 
 If you want to generate a sufficiently strong `SecretKey` for use with "local" tokens, use the 
-`Keys.secretKeyFor(Version)` helper method:
+`Keys.secretKey()` helper method:
 
 ```java
-SecretKey key = Keys.secretKeyFor(Version.V1); //or V2
+SecretKey key = Keys.secretKey();
 ```
-// TODO
-
-Under the hood, JPaseto uses the JCA provider's `KeyGenerator` to create a secure-random key with the correct minimum
-length for the given algorithm.
-// TODO not true for V2
-
-If you have an existing HMAC SHA `SecretKey`'s 
-[encoded byte array](https://docs.oracle.com/javase/8/docs/api/java/security/Key.html#getEncoded--), you can use 
-the `Keys.hmacShaKeyFor` helper method.  For example:
-
-```java
-byte[] keyBytes = getSigningKeyFromApplicationConfiguration();
-SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-```
-// TODO
-
 <a name="key-create-asym"></a>
 #### Asymmetric Keys
 
@@ -367,7 +357,7 @@ If you want to generate sufficiently strong Elliptic Curve or RSA asymmetric key
 algorithms, use the `Keys.keyPairFor(Version)` helper method:
 
 ```java
-KeyPair keyPair = Keys.keyPairFor(Version.V1); //or V2
+KeyPair keyPair = Keys.keyPairFor(Version.V1);
 ```
 
 You use the private key (`keyPair.getPrivate()`) to create a token and the public key (`keyPair.getPublic()`) to 
@@ -699,16 +689,9 @@ automatically attempt to discover and use the following JSON implementation if f
 
 1. Jackson: This will automatically be used if you specify `dev.paseto:jpaseto-jackson` as a project runtime 
    dependency.  Jackson supports POJOs as claims with full marshaling/unmarshaling as necessary.
-   
-2. ~~JSON-Java (`org.json`): This will be used automatically if you specify `dev.paseto:jpaseto-orgjson` as a 
-   project runtime dependency.~~ Coming soon!
-   
-   **NOTE:** `org.json` APIs are natively enabled in Android environments so this is the recommended JSON processor for 
-   Android applications _unless_ you want to use POJOs as claims.  The `org.json` library supports simple 
-   Object-to-JSON marshaling, but it *does not* support JSON-to-Object unmarshalling.
 
-3. ~~Gson: This will be used automatically if you specify `dev.paseto:jpaseto-gson` as a 
-   project runtime dependency.~~ Coming soon!
+2. Gson: This will be used automatically if you specify `dev.paseto:jpaseto-gson` as a 
+   project runtime dependency.
 
 **If you want to use POJOs as claim values, use the `dev.paseto:jpaseto-jackson` dependency** (or implement your own
 Serializer and Deserializer if desired).  **But beware**, Jackson will force a sizable (> 1 MB) dependency to an 
