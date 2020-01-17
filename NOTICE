@@ -13,22 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 This project includes:
-  Animal Sniffer Annotations under MIT license
   ASM Analysis under BSD
   ASM Commons under BSD
   ASM Core under BSD
   ASM Tree under BSD
   ASM Util under BSD
-  Auto Common Libraries under Apache 2.0
-  AutoService under Apache 2.0
-  AutoService Processor under Apache 2.0
-  Checker Qual under The MIT License
-  error-prone annotations under Apache 2.0
-  FindBugs-jsr305 under The Apache Software License, Version 2.0
-  Guava InternalFutureFailureAccess and InternalFutures under The Apache Software License, Version 2.0
-  Guava ListenableFuture only under The Apache Software License, Version 2.0
-  Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
-  J2ObjC Annotations under The Apache Software License, Version 2.0
+  Gson under Apache 2.0
   jffi under The Apache Software License, Version 2.0
   jnr-a64asm under The Apache Software License, Version 2.0
   jnr-ffi under The Apache Software License, Version 2.0
