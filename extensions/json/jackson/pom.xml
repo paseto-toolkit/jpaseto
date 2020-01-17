@@ -29,7 +29,6 @@
     <artifactId>jpaseto-jackson</artifactId>
     <name>JPaseto :: JSON :: Jackson</name>
 
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -60,6 +59,7 @@
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
     </dependencies>
