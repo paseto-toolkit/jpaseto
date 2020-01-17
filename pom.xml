@@ -57,6 +57,7 @@
         <module>extensions/crypto/sodium</module>
         <module>extensions/crypto/bouncy-castle</module>
         <module>extensions/json/jackson</module>
+        <module>extensions/json/gson</module>
         <module>integration-tests</module>
         <module>coverage</module>
     </modules>
