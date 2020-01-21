@@ -17,7 +17,6 @@ package dev.paseto.jpaseto.its
 
 import dev.paseto.jpaseto.*
 import dev.paseto.jpaseto.crypto.bouncycastle.BouncyCastleInitializer
-import dev.paseto.jpaseto.lang.Keys
 import org.apache.commons.codec.binary.Hex
 import org.bouncycastle.asn1.DEROctetString
 import org.bouncycastle.asn1.edec.EdECObjectIdentifiers
@@ -28,7 +27,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 
-import javax.crypto.SecretKey
 import java.security.PrivateKey
 import java.security.PublicKey
 
@@ -39,7 +37,7 @@ import static org.hamcrest.Matchers.is
 class V2PublicIT {
 
     V2PublicIT() {
-        BouncyCastleInitializer
+        BouncyCastleInitializer.enableBouncyCastle()
     }
 
     @Test
@@ -131,16 +129,5 @@ class V2PublicIT {
                 [kid: 'zVhMiPBP9fRf2snEcT7gFTioeA9COcNy9DfgL1W60haN'],
                 'Test Vector 2-S-2'],
         ]
-    }
-
-    @Test
-    void foo() {
-        SecretKey key = Keys.secretKey()
-
-        String token = Pasetos.V1.LOCAL.builder()
-                .setSubject("Joe")
-                .setSharedSecret(key)
-                .compact()
-        println(token)
     }
 }
