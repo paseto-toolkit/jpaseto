@@ -247,9 +247,9 @@ dependencies {
 <a name="install-sodium"></a>
 #### libsodium
 
-Installation the a native library [libsodium(https://github.com/jedisct1/libsodium) is required when creating or parseing "v2" tokens.
+Installation the a native library [libsodium(https://github.com/jedisct1/libsodium) is required when creating or parseing "v2.local" tokens.
 
-**NOTE:** `v1.public` tokens can be used with the `jpaseto-bouncy-castle` dependency or Java 11+. `v1.local` tokens require `jpaseto-bouncy-castle`.
+**NOTE:** `public` tokens can be used with the `jpaseto-bouncy-castle` dependency or Java 11+. `v1.local` tokens require `jpaseto-bouncy-castle`.
 
 - MacOS -  Can install libsodium using brew: 
   
