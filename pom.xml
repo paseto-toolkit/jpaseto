@@ -39,11 +39,18 @@
         </license>
     </licenses>
 
+    <scm>
+        <connection>scm:git:git://github.com/okta/${github.slug}.git</connection>
+        <developerConnection>scm:git:ssh://github.com:${github.slug}.git</developerConnection>
+        <url>http://github.com/${github.slug}</url>
+    </scm>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <github.slug>paseto-toolkit/jpaseto</github.slug>
 
         <!-- real base dir -->
         <root.dir>${session.executionRootDirectory}</root.dir>
@@ -353,6 +360,19 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>sonatype-nexus-staging</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <keepStagingRepositoryOnFailure>true</keepStagingRepositoryOnFailure>
+                    <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
+                </configuration>
             </plugin>
         </plugins>
     </build>
