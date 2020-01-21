@@ -44,7 +44,7 @@ import java.security.spec.X509EncodedKeySpec;
  *
  * @since 0.1
  */
-public class KeyResolverAdapter implements KeyResolver {
+public abstract class KeyResolverAdapter implements KeyResolver {
 
     @Override
     public PublicKey resolvePublicKey(Version version, Purpose purpose, FooterClaims footer) {

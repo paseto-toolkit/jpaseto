@@ -28,6 +28,14 @@
     <artifactId>jpaseto-api</artifactId>
     <name>JPaseto :: API</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
