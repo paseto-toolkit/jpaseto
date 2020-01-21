@@ -9,7 +9,7 @@ install:
 - 'true'
 
 script:
-- "./mvnw package -Pci -V -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+- "./mvnw verify -Pci -V -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
 
 after_success:
 - bash <(curl -s https://codecov.io/bash) -f coverage/target/site/jacoco-aggregate/jacoco.xml
