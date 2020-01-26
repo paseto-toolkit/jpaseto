@@ -51,10 +51,10 @@ public class JcaV2PublicCryptoProvider implements V2PublicCryptoProvider {
         byte[] preAuth = PreAuthEncoder.encode(HEADER_BYTES, message, footer);
 
         try {
-            Signature rsaSignature = signature();
-            rsaSignature.initVerify(publicKey);
-            rsaSignature.update(preAuth);
-            return rsaSignature.verify(signature);
+            Signature eddsaSignature = signature();
+            eddsaSignature.initVerify(publicKey);
+            eddsaSignature.update(preAuth);
+            return eddsaSignature.verify(signature);
         } catch (InvalidKeyException | SignatureException e) {
             throw new PasetoSignatureException("Could not verify token signature", e);
         }
