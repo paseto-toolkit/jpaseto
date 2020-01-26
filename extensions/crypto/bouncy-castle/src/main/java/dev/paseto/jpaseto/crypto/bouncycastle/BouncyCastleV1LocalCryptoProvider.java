@@ -80,12 +80,24 @@ public class BouncyCastleV1LocalCryptoProvider implements V1LocalCryptoProvider 
         byte[] calculatedMac = Hmacs.hmacSha384(authenticationKey, preAuth);
 
         // 7
-        if (!Arrays.equals(calculatedMac, mac)) {
+        if (!equals(calculatedMac, mac)) {
             throw new InvalidMacException("Failed to validate mac in token");
         }
 
         // 8
         return V1LocalCryptoProvider.doCipher(Cipher.DECRYPT_MODE, encryptionKey, rightNonce, cipherText);
+    }
+
+    private bool equals(byte[] calculatedMac, byte[] mac) {
+        if (calculatedMac.length != mac.length) {
+            return false;
+        }
+
+        int diff = 0;
+        for (int i = 0; i < calculatedMac.length; i++) {
+            diff |= calculatedMac[i] ^ mac[i];
+        }
+        return diff == 0;
     }
 
     private byte[] hkdfSha384(SecretKey sharedSecret, byte[] salt, String info) {
