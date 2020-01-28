@@ -262,6 +262,23 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                    <configuration>
+                        <!-- do not update upstream, with a pending release. -->
+                        <pushChanges>false</pushChanges>
+                        <localCheckout>true</localCheckout>
+                        <preparationGoals>clean verify</preparationGoals>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <!-- This configuration copied from apache:apache:7 parent pom -->
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <goals>deploy</goals>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <arguments>-Pdocs,sonatype-oss-release</arguments>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -375,7 +392,7 @@
                 <configuration>
                     <serverId>sonatype-nexus-staging</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose> <!-- TODO change to true after first release -->
                     <keepStagingRepositoryOnFailure>true</keepStagingRepositoryOnFailure>
                     <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                 </configuration>
