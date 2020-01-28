@@ -1,3 +1,6 @@
+[![Maven Central](https://img.shields.io/maven-central/v/dev.paseto/jpaseto-api.svg)](https://search.maven.org/search?q=g:dev.paseto)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # JPaseto - Paseto Library for Java
 
 JPaseto aims to be the easiest to use and understand library for creating and verifying Paseto tokens on the JVM.
@@ -73,7 +76,7 @@ Why choose this library over the other Java Paseto implementations?
 
 - Fluent API
 - Full security audited performed by [Paragon Initiative Enterprises](https://paragonie.com)
-- Available on Maven Central (coming soon!)
+- Available on Maven Central
 - Low dependency count(with the exception of libsodium)
 - Already using JJWT, this library works the same way
 
