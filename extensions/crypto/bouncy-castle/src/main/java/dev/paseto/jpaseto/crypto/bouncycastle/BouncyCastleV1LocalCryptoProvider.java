@@ -27,6 +27,7 @@ import org.bouncycastle.crypto.util.DigestFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
+import java.security.MessageDigest;
 import java.util.Arrays;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -80,24 +81,12 @@ public class BouncyCastleV1LocalCryptoProvider implements V1LocalCryptoProvider 
         byte[] calculatedMac = Hmacs.hmacSha384(authenticationKey, preAuth);
 
         // 7
-        if (!equals(calculatedMac, mac)) {
+        if (!MessageDigest.isEqual(calculatedMac, mac)) {
             throw new InvalidMacException("Failed to validate mac in token");
         }
 
         // 8
         return V1LocalCryptoProvider.doCipher(Cipher.DECRYPT_MODE, encryptionKey, rightNonce, cipherText);
-    }
-
-    private bool equals(byte[] calculatedMac, byte[] mac) {
-        if (calculatedMac.length != mac.length) {
-            return false;
-        }
-
-        int diff = 0;
-        for (int i = 0; i < calculatedMac.length; i++) {
-            diff |= calculatedMac[i] ^ mac[i];
-        }
-        return diff == 0;
     }
 
     private byte[] hkdfSha384(SecretKey sharedSecret, byte[] salt, String info) {
