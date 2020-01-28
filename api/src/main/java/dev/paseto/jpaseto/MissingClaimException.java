@@ -22,11 +22,11 @@ package dev.paseto.jpaseto;
  * @since 0.1
  */
 public class MissingClaimException extends InvalidClaimException {
-    public MissingClaimException(Paseto paseto, String message) {
-        super(paseto, message);
+    public MissingClaimException(Paseto paseto, String claimName, String claimDescription, String message) {
+        super(paseto, claimName, claimDescription, message);
     }
 
-    public MissingClaimException(Paseto paseto, String message, Throwable cause) {
-        super(paseto, message, cause);
+    public MissingClaimException(Paseto paseto, String claimName, String claimDescription, String message, Throwable cause) {
+        super(paseto, claimName, claimDescription, message, cause);
     }
 }

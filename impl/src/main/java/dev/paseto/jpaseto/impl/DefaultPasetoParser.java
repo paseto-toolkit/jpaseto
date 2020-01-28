@@ -258,19 +258,17 @@ class DefaultPasetoParser implements PasetoParser {
             if (actualClaimValue == null) {
 
                 String msg = String.format(ClaimPasetoException.MISSING_EXPECTED_CLAIM_MESSAGE_TEMPLATE, claimName, description);
-                invalidClaimException = new MissingClaimException(paseto, msg);
+                invalidClaimException = new MissingClaimException(paseto, claimName, description, msg);
 
             } else if (!predicate.test(actualClaimValue)) {
 
                 String msg = String.format(ClaimPasetoException.INCORRECT_EXPECTED_CLAIM_MESSAGE_TEMPLATE,
                     claimName, description, actualClaimValue);
 
-                invalidClaimException = new IncorrectClaimException(paseto, msg);
+                invalidClaimException = new IncorrectClaimException(paseto, claimName, description, msg);
             }
 
             if (invalidClaimException != null) {
-                invalidClaimException.setClaimName(claimName);
-                invalidClaimException.setClaimDescription(description);
                 throw invalidClaimException;
             }
         });

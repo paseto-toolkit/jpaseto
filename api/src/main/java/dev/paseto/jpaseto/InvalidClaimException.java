@@ -26,31 +26,26 @@ package dev.paseto.jpaseto;
  */
 public class InvalidClaimException extends ClaimPasetoException {
 
-    // TODO make imutable
-    private String claimName;
-    private Object claimDescription;
+    private final String claimName;
+    private final Object claimDescription;
 
-    protected InvalidClaimException(Paseto paseto, String message) {
+    protected InvalidClaimException(Paseto paseto, String claimName, String claimDescription, String message) {
         super(paseto, message);
+        this.claimName = claimName;
+        this.claimDescription = claimDescription;
     }
 
-    protected InvalidClaimException(Paseto paseto, String message, Throwable cause) {
+    protected InvalidClaimException(Paseto paseto, String claimName, String claimDescription, String message, Throwable cause) {
         super(paseto, message, cause);
+        this.claimName = claimName;
+        this.claimDescription = claimDescription;
     }
 
     public String getClaimName() {
         return claimName;
     }
 
-    public void setClaimName(String claimName) {
-        this.claimName = claimName;
-    }
-
     public Object getClaimDescription() {
         return claimDescription;
-    }
-
-    public void setClaimDescription(Object claimDescription) {
-        this.claimDescription = claimDescription;
     }
 }

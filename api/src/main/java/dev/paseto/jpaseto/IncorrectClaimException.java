@@ -23,11 +23,11 @@ package dev.paseto.jpaseto;
  */
 public class IncorrectClaimException extends InvalidClaimException {
 
-    public IncorrectClaimException(Paseto paseto, String message) {
-        super(paseto, message);
+    public IncorrectClaimException(Paseto paseto, String claimName, String claimDescription, String message) {
+        super(paseto, claimName, claimDescription, message);
     }
 
-    public IncorrectClaimException(Paseto paseto, String message, Throwable cause) {
-        super(paseto, message, cause);
+    public IncorrectClaimException(Paseto paseto, String claimName, String claimDescription, String message, Throwable cause) {
+        super(paseto, claimName, claimDescription, message, cause);
     }
 }

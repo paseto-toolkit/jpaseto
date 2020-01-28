@@ -49,6 +49,7 @@ available in the future. (see below for more details)
       * [Custom Clock](#paseto-read-clock-custom)
 * [JSON Processor](#json)
   * [Custom JSON Processor](#json-custom)
+  * [Parsing of Custom Claim Types](#json-jackson-custom-types)
 * [Learn More](#learn-more)
 * [License](#license)
 
@@ -721,6 +722,39 @@ Deserializer<Map<String, Object>> deserializer = getMyDeserializer(); //implemen
 Pasetos.parserBuilder()
     .setDeserializer(deserializer)
     // ... etc ...
+```
+
+<a name="json-jackson-custom-types"></a>
+### Parsing of Custom Claim Types
+
+By default JPaseto will only convert simple claim types: String, Instant, Date, Long, Integer, Short and Byte.  If you need to deserialize other types you can configure the `JacksonDeserializer` by passing a `Map` of claim names to types in through a constructor. For example:
+
+```java
+new JacksonDeserializer(Maps.of("user", User.class).build())
+```
+
+This would trigger the value in the `user` claim to be deserialized into the custom type of `User`.  Given the claims body of:
+
+```json
+{
+    "issuer": "https://example.com/issuer",
+    "user": {
+      "firstName": "Jill",
+      "lastName": "Coder"
+    }
+}
+```
+
+The `User` object could be retrieved from the `user` claim with the following code:
+
+```java
+Pasetos.parserBuilder()
+
+    .setDeserializer(new JacksonDeserializer(Map.of("user", User.class))) // <-----
+    .build()
+    .parse(token)
+    .getClaims()
+    .get("user", User.class); // <-----
 ```
 
 <a name="learn-more"></a>
