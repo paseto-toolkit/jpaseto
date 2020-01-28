@@ -35,10 +35,8 @@ abstract class ClaimsMap implements Map<String, Object> {
         "Anything more complex is expected to be already converted to your desired type by the JSON Deserializer " +
         "implementation. You may specify a custom Deserializer for a JwtParser with the desired conversion " +
         "configuration via the PasetoParserBuilder.setDeserializer() method. " +
-        "See https://github.com/jwtk/jjwt#custom-json-processor for more information. If using Jackson, you can " +
-        "specify custom claim POJO types as described in https://github.com/jwtk/jjwt#json-jackson-custom-types";
-
-    // TODO: add link to message
+        "See https://github.com/paseto-toolkit/jpaseto#custom-json for more information. If using Jackson, you can " +
+        "specify custom claim POJO types as described in https://github.com/paseto-toolkit/jpaseto#json-jackson-custom-types";
 
     private final Map<String, Object> claims;
 
