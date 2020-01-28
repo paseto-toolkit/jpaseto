@@ -71,6 +71,7 @@ available in the future. (see below for more details)
 Why choose this library over the other Java Paseto implementations?
 
 - Fluent API
+- Full security audited performed by [Paragon Initiative Enterprises](https://paragonie.com)
 - Available on Maven Central (coming soon!)
 - Low dependency count(with the exception of libsodium)
 - Already using JJWT, this library works the same way
