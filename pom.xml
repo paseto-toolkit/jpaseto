@@ -392,7 +392,7 @@
                 <configuration>
                     <serverId>sonatype-nexus-staging</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>false</autoReleaseAfterClose> <!-- TODO change to true after first release -->
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     <keepStagingRepositoryOnFailure>true</keepStagingRepositoryOnFailure>
                     <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                 </configuration>
