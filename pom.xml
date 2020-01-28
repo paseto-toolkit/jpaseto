@@ -272,6 +272,7 @@
                         <localCheckout>true</localCheckout>
                         <preparationGoals>clean verify</preparationGoals>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <tagNameFormat>jpaseto-@{version}</tagNameFormat>
                         <!-- This configuration copied from apache:apache:7 parent pom -->
                         <useReleaseProfile>false</useReleaseProfile>
                         <goals>deploy</goals>
