@@ -82,6 +82,23 @@ class V2LocalIT {
         assertThat parsedResult, is(PasetoMatcher.paseto(v2LocalFromClaims(claims, footer)))
     }
 
+    @Test
+    void encodeAndParseWithGeneratedKey() {
+        def name = "encodeAndParseWithGeneratedKey"
+        def key = Keys.secretKey()
+        def tokenString = Pasetos.V2.LOCAL.builder()
+            .setSharedSecret(key)
+            .claim("test-name", name)
+            .compact()
+
+        def result = Pasetos.parserBuilder()
+            .setSharedSecret(key)
+            .build()
+            .parse(tokenString)
+
+        assertThat result.claims.get("test-name", String), is(name)
+    }
+
     @DataProvider
     Object[][] officialV2LocalTestVectors() {
 

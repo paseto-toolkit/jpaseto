@@ -34,7 +34,7 @@ public final class Keys {
     }
 
     public static SecretKey secretKey() {
-        byte[] keyBytes = new byte[64];
+        byte[] keyBytes = new byte[32];
         try {
             SecureRandom.getInstanceStrong().nextBytes(keyBytes);
         } catch (NoSuchAlgorithmException e) {
