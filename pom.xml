@@ -25,7 +25,7 @@
 
     <groupId>dev.paseto</groupId>
     <artifactId>jpaseto-root</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>JPaseto</name>
 
@@ -47,7 +47,7 @@
         <connection>scm:git:git://github.com/okta/${github.slug}.git</connection>
         <developerConnection>scm:git:ssh://github.com:${github.slug}.git</developerConnection>
         <url>http://github.com/${github.slug}</url>
-      <tag>jpaseto-0.2.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <properties>
@@ -79,33 +79,33 @@
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-api</artifactId>
-                <version>0.2.0</version>
+                <version>0.2.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-impl</artifactId>
-                <version>0.2.0</version>
+                <version>0.2.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-jackson</artifactId>
-                <version>0.2.0</version>
+                <version>0.2.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-sodium</artifactId>
-                <version>0.2.0</version>
+                <version>0.2.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-bouncy-castle</artifactId>
-                <version>0.2.0</version>
+                <version>0.2.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-its-sodium-jackson</artifactId>
                 <scope>test</scope>
-                <version>0.2.0</version>
+                <version>0.2.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
