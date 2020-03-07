@@ -62,7 +62,7 @@ public class DefaultPasetoV2LocalBuilder extends AbstractPasetoBuilder<PasetoV2L
         }
 
         // 3
-        byte[] nonce = cryptoProvider.blake2b(payload, randomBytes);
+        byte[] nonce = cryptoProvider.blake2b(randomBytes, payload);
 
         // 4, 5, 6
         byte[] cipherText = cryptoProvider.encrypt(payload, footer, nonce, sharedSecret);

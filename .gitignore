@@ -1,1 +1,6 @@
 target
+
+# IDE and build resources
+*.idea
+*.mvn
+*.iml
