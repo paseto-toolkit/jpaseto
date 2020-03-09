@@ -19,7 +19,7 @@ import javax.crypto.SecretKey;
 
 public interface V2LocalCryptoProvider {
 
-    byte[] blake2b(byte[] random, byte[] payload);
+    byte[] blake2b(byte[] payload, byte[] random);
 
     byte[] encrypt(byte[] payload, byte[] footer, byte[] nonce, SecretKey sharedSecret);
 
