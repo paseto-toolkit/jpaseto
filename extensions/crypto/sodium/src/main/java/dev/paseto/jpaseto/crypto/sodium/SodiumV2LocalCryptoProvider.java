@@ -32,7 +32,7 @@ public class SodiumV2LocalCryptoProvider implements V2LocalCryptoProvider {
     private static final byte[] HEADER_BYTES = "v2.local.".getBytes(StandardCharsets.UTF_8);
 
     @Override
-    public byte[] blake2b(byte[] random, byte[] payload) {
+    public byte[] blake2b(byte[] payload, byte[] random) {
         return Blake2b.hash(24, payload, random);
     }
 
