@@ -20,7 +20,7 @@
     <parent>
         <groupId>dev.paseto</groupId>
         <artifactId>jpaseto-root</artifactId>
-        <version>0.4.0</version>
+        <version>0.4.1-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
