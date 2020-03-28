@@ -24,7 +24,6 @@ import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 
 import java.security.KeyPair
-import java.security.KeyPairGenerator
 import java.security.PublicKey
 import java.time.Clock
 import java.time.Duration
@@ -35,7 +34,9 @@ import static dev.paseto.jpaseto.impl.Util.expect
 import static java.nio.charset.StandardCharsets.UTF_8
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.*
+import static org.mockito.ArgumentMatchers.eq
 import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.when
 
 class DefaultPasetoParserBuilderTest {
 
@@ -174,6 +175,35 @@ class DefaultPasetoParserBuilderTest {
 
         def e = expect IncorrectClaimException, { parser.parse(token) }
         assertThat e.getMessage(), startsWith("Expected 'kid' claim to be equal to: 'Valid',")
+    }
+
+    /**
+     * https://github.com/paseto-toolkit/jpaseto/issues/4
+     */
+    @Test
+    void justKeyPublicResolverTest() {
+        // start with a token
+        String token = Pasetos.V1.PUBLIC.builder()
+                .setPrivateKey(keyPair.getPrivate())
+                .setExpiration(Instant.now().plus(1, ChronoUnit.HOURS))
+                .setSubject("test-sub")
+                .setKeyId("test-kid")
+                .compact()
+
+        // setup a mock keyResolver
+        def keyResolver = mock(KeyResolver)
+        def expectedFooter = new DefaultFooterClaims(["kid": "test-kid"])
+        when(keyResolver.resolvePublicKey(eq(Version.V1), eq(Purpose.PUBLIC), eq(expectedFooter)))
+                .thenReturn(keyPair.getPublic())
+        // parse with the key resolver
+        def parser = Pasetos.parserBuilder()
+                .setKeyResolver(keyResolver)
+                .build()
+
+        assertThat parser.keyResolver, sameInstance(keyResolver)
+        def result = parser.parse(token)
+        assertThat result.getFooter(), is(expectedFooter)
+        assertThat result.getClaims().getSubject(), is("test-sub")
     }
 
     @Test
