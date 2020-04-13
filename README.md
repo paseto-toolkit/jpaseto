@@ -1,3 +1,4 @@
+[<img src="/docs/jpaseto-logo" align="right" width="256px"/>](https://github.com/paseto-toolkit/jpaseto)
 [![Maven Central](https://img.shields.io/maven-central/v/dev.paseto/jpaseto-api.svg)](https://search.maven.org/search?q=g:dev.paseto)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
