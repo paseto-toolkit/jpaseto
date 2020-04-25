@@ -68,6 +68,7 @@
         <module>impl</module>
         <module>extensions/crypto/sodium</module>
         <module>extensions/crypto/bouncy-castle</module>
+        <module>extensions/crypto/hkdf</module>
         <module>extensions/json/jackson</module>
         <module>extensions/json/gson</module>
         <module>integration-tests</module>
@@ -103,6 +104,11 @@
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
+                <artifactId>jpaseto-hkdf</artifactId>
+                <version>0.4.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-its-sodium-jackson</artifactId>
                 <scope>test</scope>
                 <version>0.4.1-SNAPSHOT</version>
@@ -118,6 +124,12 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>1.64</version>
+            </dependency>
+
+            <dependency>
+                <groupId>at.favre.lib</groupId>
+                <artifactId>hkdf</artifactId>
+                <version>1.1.0</version>
             </dependency>
 
         </dependencies>

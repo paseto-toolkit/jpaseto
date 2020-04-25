@@ -21,40 +21,29 @@
         <groupId>dev.paseto</groupId>
         <artifactId>jpaseto-root</artifactId>
         <version>0.4.1-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jpaseto-its-sodium-jackson</artifactId>
-    <name>JPaseto :: ITs :: Sodium+Jackson</name>
+    <artifactId>jpaseto-hkdf</artifactId>
+    <name>JPaseto :: Crypto :: HKDF</name>
 
     <dependencies>
         <dependency>
             <groupId>dev.paseto</groupId>
-            <artifactId>jpaseto-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.paseto</groupId>
             <artifactId>jpaseto-impl</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>dev.paseto</groupId>
-            <artifactId>jpaseto-sodium</artifactId>
-            <scope>runtime</scope>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>hkdf</artifactId>
         </dependency>
+
         <dependency>
-            <!-- TODO we should split these up -->
-            <groupId>dev.paseto</groupId>
-            <artifactId>jpaseto-bouncy-castle</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.paseto</groupId>
-            <artifactId>jpaseto-hkdf</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.paseto</groupId>
-            <artifactId>jpaseto-jackson</artifactId>
-            <scope>runtime</scope>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
+
 </project>

@@ -19,6 +19,7 @@ This project includes:
   ASM Tree under BSD
   ASM Util under BSD
   Gson under Apache 2.0
+  HKDF-RFC5869 under Apache License, Version 2.0
   jffi under The Apache Software License, Version 2.0
   jnr-a64asm under The Apache Software License, Version 2.0
   jnr-ffi under The Apache Software License, Version 2.0

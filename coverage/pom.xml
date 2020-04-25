@@ -51,6 +51,10 @@
         </dependency>
         <dependency>
             <groupId>dev.paseto</groupId>
+            <artifactId>jpaseto-hkdf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.paseto</groupId>
             <artifactId>jpaseto-its-sodium-jackson</artifactId>
             <scope>test</scope>
         </dependency>
