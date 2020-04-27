@@ -25,7 +25,7 @@
 
     <groupId>dev.paseto</groupId>
     <artifactId>jpaseto-root</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>JPaseto</name>
 
@@ -80,38 +80,38 @@
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-api</artifactId>
-                <version>0.5.0</version>
+                <version>0.5.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-impl</artifactId>
-                <version>0.5.0</version>
+                <version>0.5.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-jackson</artifactId>
-                <version>0.5.0</version>
+                <version>0.5.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-sodium</artifactId>
-                <version>0.5.0</version>
+                <version>0.5.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-bouncy-castle</artifactId>
-                <version>0.5.0</version>
+                <version>0.5.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-hkdf</artifactId>
-                <version>0.5.0</version>
+                <version>0.5.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-its-sodium-jackson</artifactId>
                 <scope>test</scope>
-                <version>0.5.0</version>
+                <version>0.5.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
