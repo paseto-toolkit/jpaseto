@@ -1,6 +1,7 @@
 [<img src="/docs/jpaseto-logo.png" align="right" height="100px"/>](https://github.com/paseto-toolkit/jpaseto)
 [![Maven Central](https://img.shields.io/maven-central/v/dev.paseto/jpaseto-api.svg)](https://search.maven.org/search?q=g:dev.paseto)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Security Audit](https://img.shields.io/badge/%EF%B8%8FSecurity%20Audit-%F0%9F%9B%A1-green)](https://paragonie.com/audit/OiT6VlbQ7n6Y6Qz6)
 
 # JPaseto - Paseto Library for Java
 
@@ -77,7 +78,7 @@ available in the future. (see below for more details)
 Why choose this library over the other Java Paseto implementations?
 
 - Fluent API
-- Full security audited performed by [Paragon Initiative Enterprises](https://paragonie.com)
+- Full security audited performed by [Paragon Initiative Enterprises](https://paragonie.com/audit/OiT6VlbQ7n6Y6Qz6)
 - Available on Maven Central
 - Low dependency count(with the exception of libsodium)
 - Already using JJWT, this library works the same way
