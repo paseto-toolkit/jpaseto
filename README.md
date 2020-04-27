@@ -34,6 +34,7 @@ available in the future. (see below for more details)
     * [Maven](#install-jdk-maven)
     * [Gradle](#install-jdk-gradle)
     * [Sodium native library](#install-sodium)
+    * [Paseto Format Support](#format-support)
   * [Understanding JPaseto Dependencies](#install-understandingdependencies)
 * [Quickstart](#quickstart)
 * [Keys and Secrets](#keys-secrets)
@@ -273,6 +274,22 @@ Installation the a native library [libsodium](https://github.com/jedisct1/libsod
 
 - Windows - Download [prebuilt binaries](https://download.libsodium.org/libsodium/releases/)
 
+<a name="format-support"></a>
+#### Paseto Format Support
+
+All Paseto formats are supported by JPaseto, the following contains a table of which additional modules are need to support a given token format:
+
+| Module (Artifact Id) | Description | v1.local | v1.public | v2.local | v2.public |
+| -------------------- | ----------- | -------- | --------- | -------- | --------- |
+| no additional modules <sup>*</sup> | [Java Cryptography Architecture (JCA)](https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) | ❌ | ✅ | ❌ | ✅ |
+| `jpaseto-bouncy-castle` | [Bouncy Castle](https://www.bouncycastle.org/) | ✅ | ✅ | ❌ | ✅ | 
+| `jpaseto-hkdf` | [HKDF](https://github.com/patrickfav/hkdf), minimal dependency size (~11K),  | ✅ | ❌ | ❌ | ❌ |
+| `jpaseto-sodium` | [https://libsodium.gitbook.io/doc/](https://libsodium.gitbook.io/doc/) | ❌ | ❌ | ✅ | ❌ |  
+
+<sup>*</sup> With no additional dependencies `v1.public` and `v2.public` tokens are supported with via the [Java Cryptography Architecture (JCA)](https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) API. Generally speaking, without the additional modules listed above `v1.public` tokens require [Java 11 (and some Java 8 distributions)](https://bugs.openjdk.java.net/browse/JDK-8230978), and `v2.public` tokens require [Java 15](https://bugs.openjdk.java.net/browse/JDK-8190219).
+
+**NOTE:** Multiple implementations can be used together, for example using `jpaseto-bouncy-castle` and `jpaseto-sodium` on a 1.8+ JVM would support all token types. 
+
 <a name="install-understandingdependencies"></a>
 ### Understanding JPaseto Dependencies
 
@@ -284,7 +301,7 @@ your applications and all other internal implementation details - that can chang
 runtime-only dependencies.  This is an extremely important point if you want to ensure stable JPaseto usage and
 upgrades over time:
 
-**JPaseto guarantees semantic versioning compatibility for only the `jpaseto-api` .jar.
+**JPaseto guarantees semantic versioning compatibility for only the `jpaseto-api` .jar.**
 
 This is done to benefit you: great care goes into curating the `jpaseto-api` .jar and ensuring it contains what you need
 and remains backwards compatible as much as is possible so you can depend on that safely with compile scope.  The 
