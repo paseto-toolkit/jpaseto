@@ -21,7 +21,7 @@
     <parent>
         <groupId>dev.paseto</groupId>
         <artifactId>jpaseto-root</artifactId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>jpaseto-coverage</artifactId>
@@ -48,6 +48,10 @@
         <dependency>
             <groupId>dev.paseto</groupId>
             <artifactId>jpaseto-bouncy-castle</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.paseto</groupId>
+            <artifactId>jpaseto-hkdf</artifactId>
         </dependency>
         <dependency>
             <groupId>dev.paseto</groupId>

@@ -202,18 +202,18 @@ If you're building a (non-Android) JDK project, you will want to define the foll
 <dependency>
     <groupId>dev.paseto</groupId>
     <artifactId>jpaseto-api</artifactId>
-    <version>0.1.0</version>
+    <version>0.5.0</version>
 </dependency>
 <dependency>
     <groupId>dev.paseto</groupId>
     <artifactId>jpaseto-impl</artifactId>
-    <version>0.1.0</version>
+    <version>0.5.0</version>
     <scope>runtime</scope>
 </dependency>
 <dependency>
     <groupId>dev.paseto</groupId>
     <artifactId>jpaseto-jackson</artifactId>
-    <version>0.1.0</version>
+    <version>0.5.0</version>
     <scope>runtime</scope>
 </dependency>
 <!-- Uncomment the next lines if you want to use v1.local tokens -->
@@ -221,7 +221,15 @@ If you're building a (non-Android) JDK project, you will want to define the foll
 <dependency>
     <groupId>dev.paseto</groupId>
     <artifactId>jpaseto-bouncy-castle</artifactId>
-    <version>0.1.0</version>
+    <version>0.5.0</version>
+    <scope>runtime</scope>
+</dependency> -->
+<!-- or this (only 'v1.local' tokens) for smaller dependency (~11 KB for HKDF vs. ~4.3 MB for Bouncy Castle) -->
+<!-- 
+<dependency>
+    <groupId>dev.paseto</groupId>
+    <artifactId>jpaseto-hkdf</artifactId>
+    <version>0.5.0</version>
     <scope>runtime</scope>
 </dependency> -->
 <!-- Uncomment the next lines if you want to use v2 tokens -->
@@ -230,7 +238,7 @@ If you're building a (non-Android) JDK project, you will want to define the foll
 <dependency>
     <groupId>dev.paseto</groupId>
     <artifactId>jpaseto-sodium</artifactId>
-    <version>0.1.0</version>
+    <version>0.5.0</version>
     <scope>runtime</scope>
 </dependency> -->
 ```
@@ -240,14 +248,16 @@ If you're building a (non-Android) JDK project, you will want to define the foll
 
 ```groovy
 dependencies {
-    compile 'dev.paseto:jpaseto-api:0.1.0'
-    runtime 'dev.paseto:jpaseto-impl:0.1.0',
+    compile 'dev.paseto:jpaseto-api:0.5.0'
+    runtime 'dev.paseto:jpaseto-impl:0.5.0',
             // Uncomment the next lines if you want to use v1.local tokens
-            // 'dev.paseto:jpaseto-bouncy-castle:0.1.0',
+            // 'dev.paseto:jpaseto-bouncy-castle:0.5.0',
+            // or this (only 'v1.local' tokens) for smaller dependency (~11 KB for HKDF vs. ~4.3 MB for Bouncy Castle)
+            // 'dev.paseto:jpaseto-hkdf:0.5.0',
             // Uncomment the next lines if you want to use v2 tokens
             // NOTE: this requires the native lib sodium library installed on your system see below
-            // 'dev.paseto:jpaseto-sodium:0.1.0',
-            'dev.paseto:jpaseto-jackson:0.1.0'
+            // 'dev.paseto:jpaseto-sodium:0.5.0',
+            'dev.paseto:jpaseto-jackson:0.5.0'
 }
 ```
 <a name="install-sodium"></a>
@@ -255,7 +265,7 @@ dependencies {
 
 Installation the a native library [libsodium](https://github.com/jedisct1/libsodium) is required when creating or parseing "v2.local" tokens.
 
-**NOTE:** `public` tokens can be used with the `jpaseto-bouncy-castle` dependency or Java 11+. `v1.local` tokens require `jpaseto-bouncy-castle`.
+**NOTE:** `public` tokens can be used with the `jpaseto-bouncy-castle` dependency or Java 11+. `v1.local` tokens require `jpaseto-bouncy-castle` or `jpaseto-hkdf`.
 
 - MacOS -  Can install libsodium using brew: 
   
