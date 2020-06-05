@@ -17,6 +17,7 @@ package dev.paseto.jpaseto.crypto.sodium;
 
 import com.google.auto.service.AutoService;
 import com.google.common.primitives.Bytes;
+import dev.paseto.jpaseto.PasetoKeyException;
 import dev.paseto.jpaseto.PasetoSecurityException;
 import dev.paseto.jpaseto.impl.crypto.PreAuthEncoder;
 import dev.paseto.jpaseto.impl.crypto.V2LocalCryptoProvider;
@@ -38,17 +39,21 @@ public class SodiumV2LocalCryptoProvider implements V2LocalCryptoProvider {
 
     @Override
     public byte[] encrypt(byte[] payload, byte[] footer, byte[] nonce, SecretKey sharedSecret) {
-        // 4
-        byte[] preAuth = PreAuthEncoder.encode(HEADER_BYTES, nonce, footer);
+        try {
+            // 4
+            byte[] preAuth = PreAuthEncoder.encode(HEADER_BYTES, nonce, footer);
 
-        // 5
-        byte[] payloadCipher = XChaCha20Poly1305.encrypt(payload,
-                preAuth,
-                XChaCha20Poly1305.Key.fromBytes(sharedSecret.getEncoded()),
-                XChaCha20Poly1305.Nonce.fromBytes(nonce));
+            // 5
+            byte[] payloadCipher = XChaCha20Poly1305.encrypt(payload,
+                    preAuth,
+                    XChaCha20Poly1305.Key.fromBytes(sharedSecret.getEncoded()),
+                    XChaCha20Poly1305.Nonce.fromBytes(nonce));
 
-        // 6
-        return Bytes.concat(nonce, payloadCipher);
+            // 6
+            return Bytes.concat(nonce, payloadCipher);
+        } catch (IllegalArgumentException e) {
+            throw new PasetoKeyException("Failed to encrypt token: " + e.getMessage(), e);
+        }
     }
 
     @Override

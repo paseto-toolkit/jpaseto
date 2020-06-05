@@ -27,11 +27,15 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 
+import java.security.KeyPair
+import java.security.KeyPairGenerator
 import java.security.PrivateKey
 import java.security.PublicKey
+import java.time.Instant
 
 import static dev.paseto.jpaseto.its.Util.*
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.is
 
 class V2PublicIT {
@@ -87,6 +91,32 @@ class V2PublicIT {
 
         // match expected
         assertThat(result, PasetoMatcher.paseto(v2PublicFromClaims(claims, footer)))
+    }
+
+    @Test
+    void jcaBasicTest() {
+        KeyPair keyPair = KeyPairGenerator.getInstance("ed25519").generateKeyPair()
+
+        Instant now = Instant.now()
+
+        String token = Pasetos.V2.PUBLIC.builder()
+                .setPrivateKey(keyPair.getPrivate())
+                .setAudience("test")
+                .setSubject("joe.coder")
+                .setIssuedAt(now)
+                .claim("foo", "bar")
+                .compact()
+
+        Paseto result = Pasetos.parserBuilder()
+                .setClock(clockForVectors())
+                .setPublicKey(keyPair.getPublic())
+                .build()
+                .parse(token)
+
+        assertThat result.getClaims().get("foo"), equalTo("bar")
+        assertThat result.getClaims().getAudience(), equalTo("test")
+        assertThat result.getClaims().getSubject(), equalTo("joe.coder")
+        assertThat result.getClaims().getIssuedAt(), equalTo(now)
     }
 
     private static PrivateKey sodiumEd25519PrivateKeyFromHex(String keyHex) {
