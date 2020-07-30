@@ -27,6 +27,10 @@
     <artifactId>jpaseto-bouncy-castle</artifactId>
     <name>JPaseto :: Crypto :: Bouncy Castle</name>
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.crypto.bouncycastle</module-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>dev.paseto</groupId>
