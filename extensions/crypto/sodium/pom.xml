@@ -25,7 +25,11 @@
     </parent>
 
     <artifactId>jpaseto-sodium</artifactId>
-    <name>JPaseto :: Crypto :: Jackson</name>
+    <name>JPaseto :: Crypto :: Sodium</name>
+
+    <properties>
+        <module-name>dev.paseto.jpaseto.crypto.sodium</module-name>
+    </properties>
 
     <dependencies>
         <dependency>

@@ -26,6 +26,10 @@
     <artifactId>jpaseto-its</artifactId>
     <name>JPaseto :: ITs</name>
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.its</module-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>dev.paseto</groupId>
