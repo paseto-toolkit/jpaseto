@@ -16,7 +16,6 @@
 package dev.paseto.jpaseto.its
 
 import dev.paseto.jpaseto.*
-import dev.paseto.jpaseto.crypto.bouncycastle.BouncyCastleInitializer
 import org.apache.commons.codec.binary.Hex
 import org.bouncycastle.asn1.DEROctetString
 import org.bouncycastle.asn1.edec.EdECObjectIdentifiers
