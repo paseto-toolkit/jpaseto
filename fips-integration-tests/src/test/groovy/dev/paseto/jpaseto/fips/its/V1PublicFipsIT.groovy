@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-Present paseto.dev, Inc.
+ * Copyright 2021-Present paseto.dev, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.paseto.jpaseto.its
+package dev.paseto.jpaseto.fips.its
 
 import dev.paseto.jpaseto.*
+import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider
+import org.testng.annotations.AfterClass
+import org.testng.annotations.BeforeClass
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 
@@ -23,16 +26,36 @@ import java.security.*
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 
-import static dev.paseto.jpaseto.its.Util.*
+import static dev.paseto.jpaseto.fips.its.Util.*
 import static org.hamcrest.MatcherAssert.assertThat
 
-class V1PublicIT {
-
+class V1PublicFipsIT {
+    static String BC_FIPS_APPROVED_ONLY_PROPERTY = "org.bouncycastle.fips.approved_only"
     KeyPair keyPairForNegativeTests = KeyPairGenerator.getInstance("RSA").generateKeyPair()
 
+    /**
+     * Add the BC-FIPS provider and force the JVM into approved-only mode
+     */
+    @BeforeClass
+    static void setup() {
+        System.setProperty(BC_FIPS_APPROVED_ONLY_PROPERTY, "true")
+        Security.addProvider(new BouncyCastleFipsProvider())
+    }
+
+    /**
+     * Remove the BC-FIPS provider and clear out the approved_only property
+     */
+    @AfterClass
+    static void cleanup() {
+        Security.removeProvider("BCFIPS")
+        System.clearProperty(BC_FIPS_APPROVED_ONLY_PROPERTY)
+    }
+
+    /**
+     * Assert that if the incorrect public key is provided to parse the token, token parsing fails with an exception
+     */
     @Test
     void invalidPublicKeyDecode() {
-
         def token = 'v1.public.eyJkYXRhIjoidGhpcyBpcyBhIHNpZ25lZCBtZXNzYWdlIiwiZXhwIjoiMjAxOS0wMS0wMVQwMDowMDowMCswMDowMCJ9cIZKahKeGM5kiAS_4D70Qbz9FIThZpxetJ6n6E6kXP_119SvQcnfCSfY_gG3D0Q2v7FEtm2Cmj04lE6YdgiZ0RwA41WuOjXq7zSnmmHK9xOSH6_2yVgt207h1_LphJzVztmZzq05xxhZsV3nFPm2cCu8oPceWy-DBKjALuMZt_Xj6hWFFie96SfQ6i85lOsTX8Kc6SQaG-3CgThrJJ6W9DC-YfQ3lZ4TJUoY3QNYdtEgAvp1QuWWK6xmIb8BwvkBPej5t88QUb7NcvZ15VyNw3qemQGn2ITSdpdDgwMtpflZOeYdtuxQr1DSGO2aQyZl7s0WYn1IjdQFx6VjSQ4yfw'
 
         PasetoParser parser = Pasetos.parserBuilder()
@@ -44,10 +67,12 @@ class V1PublicIT {
         expect PasetoSignatureException, { parser.parse(token) }
     }
 
+    /**
+     * Assert that we can successfully generate and parse the test vector tokens in BC-FIPS approved mode
+     */
     @Test(dataProvider = "officialV1PublicTestVectors")
     void officialVectorsV1PublicVectorsTest(String expectedToken, PublicKey publicKey, PrivateKey privateKey, Map<String, Object> claims, Map<String, Object> footer, String name) {
-
-        // create to token
+        // create the token
         PasetoV1PublicBuilder builder = Pasetos.V1.PUBLIC.builder()
             .setPrivateKey(privateKey)
 

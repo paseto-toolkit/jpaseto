@@ -20,6 +20,7 @@ import dev.paseto.jpaseto.PasetoSignatureException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
@@ -30,6 +31,8 @@ import java.security.spec.PSSParameterSpec;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class JcaV1PublicCryptoProvider implements V1PublicCryptoProvider {
+
+    private static final boolean IS_IN_BC_FIPS_MODE = Boolean.getBoolean("org.bouncycastle.fips.approved_only");
 
     private static final byte[] HEADER_BYTES = "v1.public.".getBytes(UTF_8);
 
@@ -67,12 +70,27 @@ public class JcaV1PublicCryptoProvider implements V1PublicCryptoProvider {
     }
 
     private Signature pssSignature() {
-        try {
-            Signature rsaSignature = Signature.getInstance("RSASSA-PSS");
-            rsaSignature.setParameter(new PSSParameterSpec("SHA-384", "MGF1", new MGF1ParameterSpec("SHA-384"), 48, 1));
-            return rsaSignature;
-        } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
-            throw new PasetoSignatureException("Could not load signature algorithm 'RSASSA-PSS' ensure you are using jpaseto-bouncy-castle.jar or Java 11+", e);
+        Signature rsaSignature;
+        if (IS_IN_BC_FIPS_MODE) {
+            // bouncy castle's FIPS-approved mode does not directly expose RSASSA-PSS, so we must construct an RSA
+            // signature using the correct parameters. RSASSA-PSS and SHA384withRSAandMGF1 can be used interchangeably,
+            // but SHA384withRSAandMGF1 must be used in the BC-FIPS approved mode.
+            try {
+                rsaSignature = Signature.getInstance("SHA384withRSAandMGF1", "BCFIPS");
+                rsaSignature.setParameter(new PSSParameterSpec("SHA-384", "MGF1", new MGF1ParameterSpec("SHA-384"), 48, 1));
+                return rsaSignature;
+            } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
+                throw new PasetoSignatureException("Could not load signature algorithm 'SHA384withRSAandMGF1' ensure you are using bc-fips.jar", e);
+            }
+        } else {
+            // In normal operation we can just use whatever provider happens to be loaded such that it exposes the RSASSA-PSS algorithm
+            try {
+                rsaSignature = Signature.getInstance("RSASSA-PSS");
+                rsaSignature.setParameter(new PSSParameterSpec("SHA-384", "MGF1", new MGF1ParameterSpec("SHA-384"), 48, 1));
+                return rsaSignature;
+            } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
+                throw new PasetoSignatureException("Could not load signature algorithm 'RSASSA-PSS' ensure you are using jpaseto-bouncy-castle.jar or Java 11+", e);
+            }
         }
     }
 }

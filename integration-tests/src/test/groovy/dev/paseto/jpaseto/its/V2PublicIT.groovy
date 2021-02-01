@@ -78,15 +78,24 @@ class V2PublicIT {
         String token = builder.compact()
         assertThat(token, is(expectedToken))
 
-        // parse the token
-        Paseto result = Pasetos.parserBuilder()
+        // parse the token we just created
+        Paseto parsedToken = Pasetos.parserBuilder()
             .setClock(clockForVectors())
             .setPublicKey(publicKey)
             .build()
             .parse(token)
 
-        // match expected
-        assertThat(result, PasetoMatcher.paseto(v2PublicFromClaims(claims, footer)))
+        Paseto parsedExpectedToken = Pasetos.parserBuilder()
+            .setClock(clockForVectors())
+            .setPublicKey(publicKey)
+            .build()
+            .parse(expectedToken)
+
+        // assert that the created token contains the correct claims
+        assertThat(parsedToken, PasetoMatcher.paseto(v2PublicFromClaims(claims, footer)))
+
+        // assert the created token matches the expected token
+        assertThat(parsedToken, PasetoMatcher.paseto(parsedExpectedToken))
     }
 
     private static PrivateKey sodiumEd25519PrivateKeyFromHex(String keyHex) {
