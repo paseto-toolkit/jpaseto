@@ -16,8 +16,8 @@
 
 on:
   push:
-    branches: # build any changes to master
-      - master
+    branches: # build any changes to main
+      - main
     tags: # all tags
       - '*'
   pull_request: # build all PRs
