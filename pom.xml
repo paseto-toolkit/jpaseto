@@ -25,7 +25,7 @@
 
     <groupId>dev.paseto</groupId>
     <artifactId>jpaseto-root</artifactId>
-    <version>0.5.1-SNAPSHOT</version>
+    <version>0.6.0</version>
     <packaging>pom</packaging>
     <name>JPaseto</name>
 
@@ -51,7 +51,7 @@
         <connection>scm:git:git://github.com/okta/${github.slug}.git</connection>
         <developerConnection>scm:git:ssh://github.com:${github.slug}.git</developerConnection>
         <url>http://github.com/${github.slug}</url>
-      <tag>jpaseto-0.5.0</tag>
+      <tag>jpaseto-0.6.0</tag>
   </scm>
 
     <properties>
@@ -85,44 +85,44 @@
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-api</artifactId>
-                <version>0.5.1-SNAPSHOT</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-impl</artifactId>
-                <version>0.5.1-SNAPSHOT</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-jackson</artifactId>
-                <version>0.5.1-SNAPSHOT</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-sodium</artifactId>
-                <version>0.5.1-SNAPSHOT</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-bouncy-castle</artifactId>
-                <version>0.5.1-SNAPSHOT</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-hkdf</artifactId>
-                <version>0.5.1-SNAPSHOT</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-its-sodium-jackson</artifactId>
                 <scope>test</scope>
-                <version>0.5.1-SNAPSHOT</version>
+                <version>0.6.0</version>
             </dependency>
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-its-fips</artifactId>
                 <scope>test</scope>
-                <version>0.5.1-SNAPSHOT</version>
+                <version>0.6.0</version>
             </dependency>
 
             <dependency>
