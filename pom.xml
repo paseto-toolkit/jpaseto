@@ -76,6 +76,7 @@
         <module>extensions/json/jackson</module>
         <module>extensions/json/gson</module>
         <module>integration-tests</module>
+        <module>fips-integration-tests</module>
         <module>coverage</module>
     </modules>
 
