@@ -68,7 +68,8 @@ class V1PublicFipsIT {
     }
 
     /**
-     * Assert that if the BC-FIPS provider is not loaded, but the system property is set, an exception is thrown
+     * Assert that if the BC-FIPS provider is not loaded, but the property org.bouncycastle.fips.approved_only is set to
+     * true, an exception is thrown
      */
     @Test
     void invalidProvider() {
