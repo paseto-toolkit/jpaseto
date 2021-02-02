@@ -76,6 +76,7 @@
         <module>extensions/json/jackson</module>
         <module>extensions/json/gson</module>
         <module>integration-tests</module>
+        <module>fips-integration-tests</module>
         <module>coverage</module>
     </modules>
 
@@ -114,6 +115,12 @@
             <dependency>
                 <groupId>dev.paseto</groupId>
                 <artifactId>jpaseto-its-sodium-jackson</artifactId>
+                <scope>test</scope>
+                <version>0.5.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.paseto</groupId>
+                <artifactId>jpaseto-its-fips</artifactId>
                 <scope>test</scope>
                 <version>0.5.1-SNAPSHOT</version>
             </dependency>

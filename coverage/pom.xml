@@ -58,6 +58,11 @@
             <artifactId>jpaseto-its-sodium-jackson</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>dev.paseto</groupId>
+            <artifactId>jpaseto-its-fips</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
