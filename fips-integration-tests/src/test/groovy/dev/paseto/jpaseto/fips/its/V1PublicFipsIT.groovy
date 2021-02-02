@@ -68,6 +68,26 @@ class V1PublicFipsIT {
     }
 
     /**
+     * Assert that if the BC-FIPS provider is not loaded, but the system property is set, an exception is thrown
+     */
+    @Test
+    void invalidProvider() {
+        Security.removeProvider("BCFIPS")
+        def token = 'v1.public.eyJkYXRhIjoidGhpcyBpcyBhIHNpZ25lZCBtZXNzYWdlIiwiZXhwIjoiMjAxOS0wMS0wMVQwMDowMDowMCswMDowMCJ9cIZKahKeGM5kiAS_4D70Qbz9FIThZpxetJ6n6E6kXP_119SvQcnfCSfY_gG3D0Q2v7FEtm2Cmj04lE6YdgiZ0RwA41WuOjXq7zSnmmHK9xOSH6_2yVgt207h1_LphJzVztmZzq05xxhZsV3nFPm2cCu8oPceWy-DBKjALuMZt_Xj6hWFFie96SfQ6i85lOsTX8Kc6SQaG-3CgThrJJ6W9DC-YfQ3lZ4TJUoY3QNYdtEgAvp1QuWWK6xmIb8BwvkBPej5t88QUb7NcvZ15VyNw3qemQGn2ITSdpdDgwMtpflZOeYdtuxQr1DSGO2aQyZl7s0WYn1IjdQFx6VjSQ4yfw'
+
+        PasetoParser parser = Pasetos.parserBuilder()
+                .setClock(clockForVectors())
+                .setPublicKey(keyPairForNegativeTests.getPublic()) // this was signed with a different key
+                .build()
+
+        // the missing BC-FIPS provider will throw an exception
+        expect PasetoSignatureException, { parser.parse(token) }
+
+        // add the provider back when we're done so other tests pass
+        Security.addProvider(new BouncyCastleFipsProvider())
+    }
+
+    /**
      * Assert that we can successfully generate and parse the test vector tokens in BC-FIPS approved mode
      */
     @Test(dataProvider = "officialV1PublicTestVectors")
