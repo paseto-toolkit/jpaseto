@@ -35,12 +35,21 @@ public final class DateFormats {
                 .toFormatter()
                 .withZone(ZoneOffset.UTC);
 
+    // This formatter is identical to the one above, except that it can parse (and generate)
+    // timestamps with 'Z' instead of '+00:00'.
+    private static final DateTimeFormatter ISO_OFFSET_DATE_TIME_Z = new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .append(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            .appendOffsetId()
+            .toFormatter()
+            .withZone(ZoneOffset.UTC);
+
     public static String formatIso8601(Instant instant) {
         return ISO_OFFSET_DATE_TIME.format(instant);
     }
 
     public static Instant parseIso8601Date(String s) throws DateTimeException {
         Assert.notNull(s, "String argument cannot be null.");
-        return Instant.from(ISO_OFFSET_DATE_TIME.parse(s));
+        return Instant.from(ISO_OFFSET_DATE_TIME_Z.parse(s));
     }
 }
