@@ -47,7 +47,7 @@ class DateFormatsTest {
     @Test
     void testFormatDateWithIso8601String() {
         def d = ZonedDateTime.of(2015, 1, 1, 12, 0, 0, 0, ZoneId.of("UTC")).toInstant()
-        String exp = "2015-01-01T12:00:00+00:00"
+        String exp = "2015-01-01T12:00:00Z"
         String s = DateFormats.formatIso8601(d)
         assertThat s, is(exp)
     }

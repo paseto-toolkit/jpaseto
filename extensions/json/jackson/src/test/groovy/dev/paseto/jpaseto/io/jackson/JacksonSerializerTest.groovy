@@ -96,7 +96,7 @@ class JacksonSerializerTest {
     @Test
     void testDateTime() {
         DateTimeFormatter dateTimeFormatter = DateFormats.ISO_OFFSET_DATE_TIME
-        def anInstantString = "2019-01-01T00:00:00+00:00"
+        def anInstantString = "2019-01-01T00:00:00Z"
         def dateTime = Instant.from(dateTimeFormatter.parse(anInstantString))
 
         def expected = '{"hello":"' + anInstantString +  '"}'
