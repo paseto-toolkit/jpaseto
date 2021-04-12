@@ -15,9 +15,6 @@ registered date claims.
 
 The goal of this project is to provide a pure Java implementation of the Paseto specification. 
 
-**NOTE:** "v2.local" tokens currently require the use of a native library "libsodium", a pure java implementation will be 
-available in the future. (see below for more details)
-
 ## Table of Contents
 
 * [Features](#features)
@@ -80,7 +77,7 @@ Why choose this library over the other Java Paseto implementations?
 - Fluent API
 - Full security audited performed by [Paragon Initiative Enterprises](https://paragonie.com/audit/OiT6VlbQ7n6Y6Qz6)
 - Available on Maven Central
-- Low dependency count(with the exception of libsodium)
+- Low dependency count
 - Already using JJWT, this library works the same way
 
 <a name="community"></a>
@@ -218,7 +215,7 @@ If you're building a (non-Android) JDK project, you will want to define the foll
     <version>0.6.0</version>
     <scope>runtime</scope>
 </dependency>
-<!-- Uncomment the next lines if you want to use v1.local tokens -->
+<!-- Uncomment the next lines if you want to use Bouncy Castle, supports all Paseto formats -->
 <!-- 
 <dependency>
     <groupId>dev.paseto</groupId>
@@ -234,7 +231,7 @@ If you're building a (non-Android) JDK project, you will want to define the foll
     <version>0.6.0</version>
     <scope>runtime</scope>
 </dependency> -->
-<!-- Uncomment the next lines if you want to use v2 tokens -->
+<!-- Uncomment the next lines if you want to use Lib Sodium for v2 local tokens -->
 <!-- NOTE: this requires the native lib sodium library installed on your system see below -->
 <!-- 
 <dependency>
@@ -252,20 +249,23 @@ If you're building a (non-Android) JDK project, you will want to define the foll
 dependencies {
     compile 'dev.paseto:jpaseto-api:0.6.0'
     runtime 'dev.paseto:jpaseto-impl:0.6.0',
-            // Uncomment the next lines if you want to use v1.local tokens
-            // 'dev.paseto:jpaseto-bouncy-castle:0.6.0',
-            // or this (only 'v1.local' tokens) for smaller dependency (~11 KB for HKDF vs. ~4.3 MB for Bouncy Castle)
-            // 'dev.paseto:jpaseto-hkdf:0.6.0',
-            // Uncomment the next lines if you want to use v2 tokens
-            // NOTE: this requires the native lib sodium library installed on your system see below
-            // 'dev.paseto:jpaseto-sodium:0.6.0',
-            'dev.paseto:jpaseto-jackson:0.6.0'
+            'dev.paseto:jpaseto-jackson:0.6.0',
+
+          // Uncomment the next lines if you want to use Bouncy Castle, supports all Paseto formats
+          // 'dev.paseto:jpaseto-bouncy-castle:0.6.0',
+
+          // or this (only 'v1.local' tokens) for smaller dependency (~11 KB for HKDF vs. ~4.3 MB for Bouncy Castle)
+          // 'dev.paseto:jpaseto-hkdf:0.6.0',
+  
+          // Uncomment the next lines if you want to use Lib Sodium for v2 local tokens 
+          // NOTE: this requires the native lib sodium library installed on your system see below
+          // 'dev.paseto:jpaseto-sodium:0.6.0', // supports v2 local tokens
 }
 ```
 <a name="install-sodium"></a>
 #### libsodium
 
-Installation the a native library [libsodium](https://github.com/jedisct1/libsodium) is required when creating or parseing "v2.local" tokens.
+Installation the a native library [libsodium](https://github.com/jedisct1/libsodium) is required when creating or parseing "v2.local" tokens, as an alternative to using `jpaseto-bouncy-castle`.
 
 **NOTE:** `public` tokens can be used with the `jpaseto-bouncy-castle` dependency or Java 11+. `v1.local` tokens require `jpaseto-bouncy-castle` or `jpaseto-hkdf`.
 
@@ -283,13 +283,13 @@ All Paseto formats are supported by JPaseto, the following contains a table of w
 | Module (Artifact Id) | Description | v1.local | v1.public | v2.local | v2.public |
 | -------------------- | ----------- | -------- | --------- | -------- | --------- |
 | no additional modules <sup>*</sup> | [Java Cryptography Architecture (JCA)](https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) | ❌ | ✅ | ❌ | ✅ |
-| `jpaseto-bouncy-castle` | [Bouncy Castle](https://www.bouncycastle.org/) | ✅ | ✅ | ❌ | ✅ | 
+| `jpaseto-bouncy-castle` | [Bouncy Castle](https://www.bouncycastle.org/) | ✅ | ✅ | ✅ | ✅ | 
 | `jpaseto-hkdf` | [HKDF](https://github.com/patrickfav/hkdf), minimal dependency size (~11K),  | ✅ | ❌ | ❌ | ❌ |
 | `jpaseto-sodium` | [https://libsodium.gitbook.io/doc/](https://libsodium.gitbook.io/doc/) | ❌ | ❌ | ✅ | ❌ |  
 
 <sup>*</sup> With no additional dependencies `v1.public` and `v2.public` tokens are supported with via the [Java Cryptography Architecture (JCA)](https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) API. Generally speaking, without the additional modules listed above `v1.public` tokens require [Java 11 (and some Java 8 distributions)](https://bugs.openjdk.java.net/browse/JDK-8230978), and `v2.public` tokens require [Java 15](https://bugs.openjdk.java.net/browse/JDK-8190219).
 
-**NOTE:** Multiple implementations can be used together, for example using `jpaseto-bouncy-castle` and `jpaseto-sodium` on a 1.8+ JVM would support all token types. 
+**NOTE:** Multiple implementations can be used together, for example using `jpaseto-hkdf` and `jpaseto-sodium` on a 1.8+ JVM would support all token types. 
 
 <a name="install-understandingdependencies"></a>
 ### Understanding JPaseto Dependencies
