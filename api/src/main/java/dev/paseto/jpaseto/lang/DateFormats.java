@@ -31,7 +31,7 @@ public final class DateFormats {
     public static final DateTimeFormatter ISO_OFFSET_DATE_TIME = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .append(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                .appendOffset("+HH:MM", "+00:00")
+                .appendOffsetId() // append UTC designator "Z"
                 .toFormatter()
                 .withZone(ZoneOffset.UTC);
 
