@@ -17,6 +17,7 @@ package dev.paseto.jpaseto.io.jackson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -37,7 +38,7 @@ public class JacksonSerializer<T> implements Serializer<T> {
 
     static final ObjectMapper DEFAULT_OBJECT_MAPPER = createObjectMapper();
 
-    private final ObjectMapper objectMapper;
+    private final ObjectWriter objectWriter;
 
     @SuppressWarnings("unused") //used via reflection by RuntimeClasspathDeserializerLocator
     public JacksonSerializer() {
@@ -47,7 +48,7 @@ public class JacksonSerializer<T> implements Serializer<T> {
     @SuppressWarnings("WeakerAccess") //intended for end-users to use when providing a custom ObjectMapper
     public JacksonSerializer(ObjectMapper objectMapper) {
         Assert.notNull(objectMapper, "ObjectMapper cannot be null.");
-        this.objectMapper = objectMapper;
+        this.objectWriter = objectMapper.writer();
     }
 
     @Override
@@ -63,7 +64,7 @@ public class JacksonSerializer<T> implements Serializer<T> {
 
     @SuppressWarnings("WeakerAccess") //for testing
     protected byte[] writeValueAsBytes(T t) throws JsonProcessingException {
-        return this.objectMapper.writeValueAsBytes(t);
+        return this.objectWriter.writeValueAsBytes(t);
     }
 
     private static ObjectMapper createObjectMapper() {
