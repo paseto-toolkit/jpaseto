@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.paseto.jpaseto.crypto.bouncycastle;
+package dev.paseto.jpaseto.its;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -28,17 +28,15 @@ final class BouncyCastleInitializer {
     private BouncyCastleInitializer() {}
 
     static void enableBouncyCastle() {
-        if (!bcLoaded.get()) {
-            for (Provider provider : Security.getProviders()) {
-                if (BouncyCastleProvider.PROVIDER_NAME.equals(provider.getName())) {
-                    bcLoaded.set(true);
-                    return;
-                }
+        for(Provider provider : Security.getProviders()) {
+            if (BouncyCastleProvider.PROVIDER_NAME.equals(provider.getName())) {
+                bcLoaded.set(true);
+                return;
             }
-
-            //bc provider not enabled - add it:
-            Security.addProvider(new BouncyCastleProvider());
-            bcLoaded.set(true);
         }
+
+        //bc provider not enabled - add it:
+        Security.addProvider(new BouncyCastleProvider());
+        bcLoaded.set(true);
     }
 }

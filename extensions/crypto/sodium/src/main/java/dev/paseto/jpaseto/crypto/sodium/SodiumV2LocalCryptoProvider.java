@@ -16,10 +16,10 @@
 package dev.paseto.jpaseto.crypto.sodium;
 
 import com.google.auto.service.AutoService;
-import com.google.common.primitives.Bytes;
 import dev.paseto.jpaseto.PasetoSecurityException;
 import dev.paseto.jpaseto.impl.crypto.PreAuthEncoder;
 import dev.paseto.jpaseto.impl.crypto.V2LocalCryptoProvider;
+import dev.paseto.jpaseto.impl.lang.Bytes;
 import org.apache.tuweni.crypto.sodium.XChaCha20Poly1305;
 
 import javax.crypto.SecretKey;

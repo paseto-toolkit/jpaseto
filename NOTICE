@@ -13,12 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 This project includes:
+  Animal Sniffer Annotations under MIT license
   ASM Analysis under BSD
   ASM Commons under BSD
   ASM Core under BSD
   ASM Tree under BSD
   ASM Util under BSD
-  Gson under Apache 2.0
   HKDF-RFC5869 under Apache License, Version 2.0
   jffi under The Apache Software License, Version 2.0
   jnr-a64asm under The Apache Software License, Version 2.0
