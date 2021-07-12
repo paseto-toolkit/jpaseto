@@ -26,6 +26,10 @@
     <artifactId>jpaseto-its-sodium-jackson</artifactId>
     <name>JPaseto :: ITs :: Sodium+Jackson</name>
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.its</module-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>dev.paseto</groupId>

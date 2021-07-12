@@ -27,6 +27,10 @@
     <artifactId>jpaseto-jackson</artifactId>
     <name>JPaseto :: JSON :: Jackson</name>
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.jackson</module-name>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

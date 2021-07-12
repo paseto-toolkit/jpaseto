@@ -28,6 +28,10 @@
     <artifactId>jpaseto-gson</artifactId>
     <name>JPaseto :: JSON :: Gson</name>
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.gson</module-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>dev.paseto</groupId>

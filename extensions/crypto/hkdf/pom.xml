@@ -27,6 +27,10 @@
     <artifactId>jpaseto-hkdf</artifactId>
     <name>JPaseto :: Crypto :: HKDF</name>
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.crypto.hkdf</module-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>dev.paseto</groupId>
