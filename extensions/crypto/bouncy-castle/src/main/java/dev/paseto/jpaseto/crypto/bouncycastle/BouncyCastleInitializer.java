@@ -28,15 +28,17 @@ final class BouncyCastleInitializer {
     private BouncyCastleInitializer() {}
 
     static void enableBouncyCastle() {
-        for(Provider provider : Security.getProviders()) {
-            if (BouncyCastleProvider.PROVIDER_NAME.equals(provider.getName())) {
-                bcLoaded.set(true);
-                return;
+        if (!bcLoaded.get()) {
+            for (Provider provider : Security.getProviders()) {
+                if (BouncyCastleProvider.PROVIDER_NAME.equals(provider.getName())) {
+                    bcLoaded.set(true);
+                    return;
+                }
             }
-        }
 
-        //bc provider not enabled - add it:
-        Security.addProvider(new BouncyCastleProvider());
-        bcLoaded.set(true);
+            //bc provider not enabled - add it:
+            Security.addProvider(new BouncyCastleProvider());
+            bcLoaded.set(true);
+        }
     }
 }
