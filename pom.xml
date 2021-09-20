@@ -340,7 +340,7 @@
                 <!-- For unit tests: -->
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
-                <version>1.12.1</version>
+                <version>1.13.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
