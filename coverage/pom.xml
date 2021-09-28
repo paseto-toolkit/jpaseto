@@ -55,8 +55,7 @@
         </dependency>
         <dependency>
             <groupId>dev.paseto</groupId>
-            <artifactId>jpaseto-its-sodium-jackson</artifactId>
-            <scope>test</scope>
+            <artifactId>jpaseto-gson</artifactId>
         </dependency>
         <dependency>
             <groupId>dev.paseto</groupId>

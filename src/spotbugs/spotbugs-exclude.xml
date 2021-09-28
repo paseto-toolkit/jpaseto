@@ -52,4 +52,10 @@
         <Bug pattern="EI_EXPOSE_REP2"/>
     </Match>
 
+    <Match>
+        <!-- SpotBugs doesn't deal with Groovy well -->
+        <!-- NOTE: normally test classes are skipped anyway, but they are exposed here to be reused in other modules -->
+        <Package name="dev.paseto.jpaseto.its" />
+    </Match>
+
 </FindBugsFilter>
