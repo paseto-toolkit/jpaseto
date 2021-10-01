@@ -17,3 +17,4 @@ This project includes:
 
 This project also includes modified code based on the following copyrights:
 - General project structure, parser, builder, JSON parsing, etc, JJWT. Apache 2.0 licensed.
+- XChaCha20Poly1305 from O(1) - https://github.com/o1c-dev Apache 2.0 licensed.

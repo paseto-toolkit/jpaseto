@@ -53,6 +53,13 @@
     </Match>
 
     <Match>
+        <!-- XChaCha20Poly1305 has an Additional Authentication Data (AAD)
+             This value is passed into the method that constructs the cipher to prevent accidental misuse -->
+        <Class name="dev.paseto.jpaseto.crypto.bouncycastle.XChaCha20Poly1305"/>
+        <Bug pattern="CIPHER_INTEGRITY"/>
+    </Match>
+
+    <Match>
         <!-- SpotBugs doesn't deal with Groovy well -->
         <!-- NOTE: normally test classes are skipped anyway, but they are exposed here to be reused in other modules -->
         <Package name="dev.paseto.jpaseto.its" />
