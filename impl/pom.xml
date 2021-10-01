@@ -27,6 +27,10 @@
     <name>JPaseto :: Impl</name>
     <description />
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.impl</module-name>
+    </properties>
+
     <dependencies>
 
         <dependency>

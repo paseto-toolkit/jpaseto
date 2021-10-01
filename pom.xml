@@ -351,6 +351,9 @@
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
+                        <manifestEntries>
+                            <Automatic-Module-Name>${module-name}</Automatic-Module-Name>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>

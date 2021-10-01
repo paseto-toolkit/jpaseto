@@ -26,6 +26,10 @@
     <artifactId>jpaseto-api</artifactId>
     <name>JPaseto :: API</name>
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.api</module-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.bouncycastle</groupId>

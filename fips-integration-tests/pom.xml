@@ -26,6 +26,10 @@
     <artifactId>jpaseto-its-fips</artifactId>
     <name>JPaseto :: ITs :: FIPS</name>
 
+    <properties>
+        <module-name>dev.paseto.jpaseto.fips.its</module-name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>dev.paseto</groupId>
