@@ -26,104 +26,126 @@ class TypeTest {
 
     @Test
     void testSafeInFooter() {
-        assertThat(true, is(Type.LID.isSafeInFooter()))
-        assertThat(false, is(Type.LOCAL.isSafeInFooter()))
-        assertThat(true, is(Type.SEAL.isSafeInFooter()))
-        assertThat(true, is(Type.LOCAL_WRAP.isSafeInFooter()))
-        assertThat(true, is(Type.LOCAL_PW.isSafeInFooter()))
-        assertThat(true, is(Type.SID.isSafeInFooter()))
-        assertThat(false, is(Type.PUBLIC.isSafeInFooter()))
-        assertThat(true, is(Type.PID.isSafeInFooter()))
-        assertThat(false, is(Type.SECRET.isSafeInFooter()))
-        assertThat(true, is(Type.SECRET_WRAP.isSafeInFooter()))
-        assertThat(true, is(Type.SECRET_PW.isSafeInFooter()))
+        assertSafeInFooter Type.LID
+        assertNotSafeInFooter Type.LOCAL
+        assertSafeInFooter Type.SEAL
+        assertSafeInFooter Type.LOCAL_WRAP
+        assertSafeInFooter Type.LOCAL_PW
+        assertSafeInFooter Type.SID
+        assertNotSafeInFooter Type.PUBLIC
+        assertSafeInFooter Type.PID
+        assertNotSafeInFooter Type.SECRET
+        assertSafeInFooter Type.SECRET_WRAP
+        assertSafeInFooter Type.SECRET_PW
     }
 
     @Test
     void testDataEncoded() {
-        assertThat(true, is(Type.LID.isDataEncoded()))
-        assertThat(true, is(Type.LOCAL.isDataEncoded()))
-        assertThat(true, is(Type.SEAL.isDataEncoded()))
-        assertThat(false, is(Type.LOCAL_WRAP.isDataEncoded()))
-        assertThat(true, is(Type.LOCAL_PW.isDataEncoded()))
-        assertThat(true, is(Type.SID.isDataEncoded()))
-        assertThat(true, is(Type.PUBLIC.isDataEncoded()))
-        assertThat(true, is(Type.PID.isDataEncoded()))
-        assertThat(true, is(Type.SECRET.isDataEncoded()))
-        assertThat(false, is(Type.SECRET_WRAP.isDataEncoded()))
-        assertThat(true, is(Type.SECRET_PW.isDataEncoded()))
+        assertEncoded Type.LID
+        assertEncoded Type.LOCAL
+        assertEncoded Type.SEAL
+        assertNotEncoded Type.LOCAL_WRAP
+        assertEncoded Type.LOCAL_PW
+        assertEncoded Type.SID
+        assertEncoded Type.PUBLIC
+        assertEncoded Type.PID
+        assertEncoded Type.SECRET
+        assertNotEncoded Type.SECRET_WRAP
+        assertEncoded Type.SECRET_PW
     }
 
     @Test
     void testCompatibility() {
-        assertThat(Purpose.LOCAL, is(Type.LID.getCompatibility()))
-        assertThat(Purpose.LOCAL, is(Type.LOCAL.getCompatibility()))
-        assertThat(Purpose.LOCAL, is(Type.SEAL.getCompatibility()))
-        assertThat(Purpose.LOCAL, is(Type.LOCAL_WRAP.getCompatibility()))
-        assertThat(Purpose.LOCAL, is(Type.LOCAL_PW.getCompatibility()))
-        assertThat(Purpose.PUBLIC, is(Type.SID.getCompatibility()))
-        assertThat(Purpose.PUBLIC, is(Type.PUBLIC.getCompatibility()))
-        assertThat(Purpose.PUBLIC, is(Type.PID.getCompatibility()))
-        assertThat(Purpose.PUBLIC, is(Type.SECRET.getCompatibility()))
-        assertThat(Purpose.PUBLIC, is(Type.SECRET_WRAP.getCompatibility()))
-        assertThat(Purpose.PUBLIC, is(Type.SECRET_PW.getCompatibility()))
+        assertLocal Type.LID
+        assertLocal Type.LOCAL
+        assertLocal Type.SEAL
+        assertLocal Type.LOCAL_WRAP
+        assertLocal Type.LOCAL_PW
+        assertPublic Type.SID
+        assertPublic Type.PUBLIC
+        assertPublic Type.PID
+        assertPublic Type.SECRET
+        assertPublic Type.SECRET_WRAP
+        assertPublic Type.SECRET_PW
     }
 
     @Test
     void testToStringReturnsType() {
-        assertThat("lid", is(Type.LID.toString()))
-        assertThat("local", is(Type.LOCAL.toString()))
-        assertThat("seal", is(Type.SEAL.toString()))
-        assertThat("local-wrap", is(Type.LOCAL_WRAP.toString()))
-        assertThat("local-pw", is(Type.LOCAL_PW.toString()))
-        assertThat("sid", is(Type.SID.toString()))
-        assertThat("public", is(Type.PUBLIC.toString()))
-        assertThat("pid", is(Type.PID.toString()))
-        assertThat("secret", is(Type.SECRET.toString()))
-        assertThat("secret-wrap", is(Type.SECRET_WRAP.toString()))
-        assertThat("secret-pw", is(Type.SECRET_PW.toString()))
+        assertThat(Type.LID.toString(), is("lid"))
+        assertThat(Type.LOCAL.toString(), is("local"))
+        assertThat(Type.SEAL.toString(), is("seal"))
+        assertThat(Type.LOCAL_WRAP.toString(), is("local-wrap"))
+        assertThat(Type.LOCAL_PW.toString(), is("local-pw"))
+        assertThat(Type.SID.toString(), is("sid"))
+        assertThat(Type.PUBLIC.toString(), is("public"))
+        assertThat(Type.PID.toString(), is("pid"))
+        assertThat(Type.SECRET.toString(), is("secret"))
+        assertThat(Type.SECRET_WRAP.toString(), is("secret-wrap"))
+        assertThat(Type.SECRET_PW.toString(), is("secret-pw"))
     }
 
     @Test
     void testOfMethod() {
-        assertThat(false, is(Type.of("foo").isPresent()))
-        assertThat(true, is(Type.of("lid").isPresent()))
-        assertThat(true, is(Type.of("lid").get() == Type.LID))
-        assertThat(true, is(Type.of("local").isPresent()))
-        assertThat(true, is(Type.of("local").get() == Type.LOCAL))
-        assertThat(true, is(Type.of("seal").isPresent()))
-        assertThat(true, is(Type.of("seal").get() == Type.SEAL))
-        assertThat(true, is(Type.of("local-wrap").isPresent()))
-        assertThat(true, is(Type.of("local-wrap").get() == Type.LOCAL_WRAP))
-        assertThat(true, is(Type.of("local-pw").isPresent()))
-        assertThat(true, is(Type.of("local-pw").get() == Type.LOCAL_PW))
-        assertThat(true, is(Type.of("sid").isPresent()))
-        assertThat(true, is(Type.of("sid").get() == Type.SID))
-        assertThat(true, is(Type.of("public").isPresent()))
-        assertThat(true, is(Type.of("public").get() == Type.PUBLIC))
-        assertThat(true, is(Type.of("pid").isPresent()))
-        assertThat(true, is(Type.of("pid").get() == Type.PID))
-        assertThat(true, is(Type.of("secret").isPresent()))
-        assertThat(true, is(Type.of("secret").get() == Type.SECRET))
-        assertThat(true, is(Type.of("secret-wrap").isPresent()))
-        assertThat(true, is(Type.of("secret-wrap").get() == Type.SECRET_WRAP))
-        assertThat(true, is(Type.of("secret-pw").isPresent()))
-        assertThat(true, is(Type.of("secret-pw").get() == Type.SECRET_PW))
+        assertNotPresent("foo")
+        assertOf("lid", Type.LID)
+        assertOf("local", Type.LOCAL)
+        assertOf("seal", Type.SEAL)
+        assertOf("local-wrap", Type.LOCAL_WRAP)
+        assertOf("local-pw", Type.LOCAL_PW)
+        assertOf("sid", Type.SID)
+        assertOf("public", Type.PUBLIC)
+        assertOf("pid", Type.PID)
+        assertOf("secret", Type.SECRET)
+        assertOf("secret-wrap", Type.SECRET_WRAP)
+        assertOf("secret-pw", Type.SECRET_PW)
     }
 
     @Test
     void testFromMethod() {
         expect UnsupportedPasetoException, { Type.from("foo") }
-        assertThat(true, is(Type.from("lid") == Type.LID))
-        assertThat(true, is(Type.from("local") == Type.LOCAL))
-        assertThat(true, is(Type.from("seal") == Type.SEAL))
-        assertThat(true, is(Type.from("local-wrap") == Type.LOCAL_WRAP))
-        assertThat(true, is(Type.from("local-pw") == Type.LOCAL_PW))
-        assertThat(true, is(Type.from("sid") == Type.SID))
-        assertThat(true, is(Type.from("public") == Type.PUBLIC))
-        assertThat(true, is(Type.from("pid") == Type.PID))
-        assertThat(true, is(Type.from("secret") == Type.SECRET))
-        assertThat(true, is(Type.from("secret-wrap") == Type.SECRET_WRAP))
-        assertThat(true, is(Type.from("secret-pw") == Type.SECRET_PW))
+        assertThat(Type.from("lid"), is(Type.LID))
+        assertThat(Type.from("local"), is(Type.LOCAL))
+        assertThat(Type.from("seal"), is(Type.SEAL))
+        assertThat(Type.from("local-wrap"), is(Type.LOCAL_WRAP))
+        assertThat(Type.from("local-pw"), is(Type.LOCAL_PW))
+        assertThat(Type.from("sid"), is(Type.SID))
+        assertThat(Type.from("public"), is(Type.PUBLIC))
+        assertThat(Type.from("pid"), is(Type.PID))
+        assertThat(Type.from("secret"), is(Type.SECRET))
+        assertThat(Type.from("secret-wrap"), is(Type.SECRET_WRAP))
+        assertThat(Type.from("secret-pw"), is(Type.SECRET_PW))
+    }
+
+    static void assertSafeInFooter(Type type) {
+        assertThat("${type.name()}.safeInFooter", type.isSafeInFooter(), is(true))
+    }
+
+    static void assertNotSafeInFooter(Type type) {
+        assertThat("${type.name()}.safeInFooter", type.isSafeInFooter(), is(false))
+    }
+
+    static void assertEncoded(Type type) {
+        assertThat("${type.name()}.dataEncoded", type.isDataEncoded(), is(true))
+    }
+
+    static void assertNotEncoded(Type type) {
+        assertThat("${type.name()}.dataEncoded", type.isDataEncoded(), is(false))
+    }
+
+    static void assertPublic(Type type) {
+        assertThat("${type.name()}.compatibility", type.getCompatibility(), is(Purpose.PUBLIC))
+    }
+
+    static void assertLocal(Type type) {
+        assertThat("${type.name()}.compatibility", type.getCompatibility(), is(Purpose.LOCAL))
+    }
+
+    static void assertNotPresent(String key) {
+        assertThat("Type.of(${key}).isPresent()", Type.of(key).isPresent(), is(false))
+    }
+
+    static void assertOf(String key, Type type) {
+        assertThat("Type.of(${key}).isPresent()", Type.of(key).isPresent(), is(true))
+        assertThat("Type.of(${key}).get()", Type.of(key).get(), is(type))
     }
 }
