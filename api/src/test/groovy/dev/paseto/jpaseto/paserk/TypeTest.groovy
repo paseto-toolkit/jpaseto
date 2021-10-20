@@ -111,13 +111,7 @@ class TypeTest {
 
     @Test
     void testFromMethod() {
-        boolean threwException = false
-        try {
-            Type.from("foo")
-        } catch(UnsupportedPasetoException e) {
-            threwException = true
-        }
-        assertTrue threwException
+        expect UnsupportedPasetoException, { Type.from("foo") }
         assertTrue Type.from("lid") == Type.LID
         assertTrue Type.from("local") == Type.LOCAL
         assertTrue Type.from("seal") == Type.SEAL
