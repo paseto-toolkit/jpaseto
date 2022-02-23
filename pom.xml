@@ -283,29 +283,6 @@
                         </licenseMapping>
                         <includeScopes>compile</includeScopes>
                     </configuration>
-                    <dependencies>
-                        <!-- needed for java 11 -->
-                        <dependency>
-                            <groupId>javax.xml.bind</groupId>
-                            <artifactId>jaxb-api</artifactId>
-                            <version>2.3.1</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.sun.xml.bind</groupId>
-                            <artifactId>jaxb-core</artifactId>
-                            <version>3.0.2</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.sun.xml.bind</groupId>
-                            <artifactId>jaxb-impl</artifactId>
-                            <version>2.1.14</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.sun.activation</groupId>
-                            <artifactId>jakarta.activation</artifactId>
-                            <version>2.0.1</version>
-                        </dependency>
-                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -433,10 +410,47 @@
                     <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jasig.maven</groupId>
+                <artifactId>maven-notice-plugin</artifactId>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
+        <profile>
+            <id>post-java-11</id>
+            <activation>
+                <jdk>(11,)</jdk>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jasig.maven</groupId>
+                            <artifactId>maven-notice-plugin</artifactId>
+                            <configuration>
+                                <!--
+                                    Skip the generation of the NOTICE file everything after java 11
+                                    This plugin _works_ with Java 17, but requires an add-opens
+                                    MAVEN_OPTS="&#8211;&#8211;add-opens java.base/java.lang=ALL-UNNAMED" mvn notice:generate
+                                 -->
+                                <skipChecks>true</skipChecks>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
         <profile>
             <id>other-jdk</id>
             <activation>
@@ -448,19 +462,8 @@
                         <plugin>
                             <groupId>org.jasig.maven</groupId>
                             <artifactId>maven-notice-plugin</artifactId>
-                            <inherited>false</inherited>
-                            <executions>
-                                <execution>
-                                    <phase>generate-resources</phase>
-                                    <goals>
-                                        <goal>generate</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                            <configuration>
-                                <skipChecks>true</skipChecks>
-                            </configuration>
                             <dependencies>
+                                <!-- needed for java 11 -->
                                 <dependency>
                                     <groupId>javax.xml.bind</groupId>
                                     <artifactId>jaxb-api</artifactId>
@@ -474,7 +477,7 @@
                                 <dependency>
                                     <groupId>com.sun.xml.bind</groupId>
                                     <artifactId>jaxb-impl</artifactId>
-                                    <version>3.0.2</version>
+                                    <version>2.1.14</version>
                                 </dependency>
                                 <dependency>
                                     <groupId>com.sun.activation</groupId>
