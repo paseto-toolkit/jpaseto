@@ -47,6 +47,6 @@ jobs:
       - name: Build and Test
         run: ./mvnw verify -Pci -V -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
-      - uses: codecov/codecov-action@v2.1.0
+      - uses: codecov/codecov-action@v3
         with:
           file: coverage/target/site/jacoco-aggregate/jacoco.xml
