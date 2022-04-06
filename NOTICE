@@ -14,11 +14,16 @@ limitations under the License.
 
 This project includes:
   Animal Sniffer Annotations under MIT license
+  asm under BSD-3-Clause
   ASM Analysis under BSD
   ASM Commons under BSD
   ASM Core under BSD
   ASM Tree under BSD
   ASM Util under BSD
+  asm-analysis under BSD-3-Clause
+  asm-commons under BSD-3-Clause
+  asm-tree under BSD-3-Clause
+  asm-util under BSD-3-Clause
   HKDF-RFC5869 under Apache License, Version 2.0
   jffi under The Apache Software License, Version 2.0
   jnr-a64asm under The Apache Software License, Version 2.0
