@@ -64,7 +64,7 @@
         <!-- real base dir -->
         <root.dir>${session.executionRootDirectory}</root.dir>
 
-        <groovy.version>3.0.12</groovy.version>
+        <groovy.version>3.0.13</groovy.version>
     </properties>
 
     <modules>
