@@ -15,21 +15,12 @@
  */
 package dev.paseto.jpaseto;
 
-import java.util.Map;
-
-import dev.paseto.jpaseto.io.Serializer;
-import dev.paseto.jpaseto.lang.Services;
+import javax.crypto.SecretKey;
 
 /**
- * A builder interface for creating paseto tokens.
- * @see Pasetos
+ * A builder for constructing Paseto v1.local tokens.
  * @since 0.1
- * @param <T> A child implementation of PasetoBuilder
  */
-public interface PasetoBuilder<T extends PasetoBuilder> {
-    Serializer<Map<String, Object>> getSerializer();
+public interface PasetoV1LocalTokenBuilder extends PasetoTokenBuilder<PasetoV1LocalTokenBuilder> {
 
-    PasetoBuilder<T> setSerializer(Serializer<Map<String, Object>> newSerializer);
-
-    String compact(PasetoTokenBuilder t);
 }

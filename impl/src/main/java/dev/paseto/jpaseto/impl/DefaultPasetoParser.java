@@ -29,6 +29,10 @@ import dev.paseto.jpaseto.PrematurePasetoException;
 import dev.paseto.jpaseto.Purpose;
 import dev.paseto.jpaseto.UnsupportedPasetoException;
 import dev.paseto.jpaseto.Version;
+import dev.paseto.jpaseto.impl.crypto.V1LocalCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V1PublicCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V2LocalCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V2PublicCryptoProvider;
 import dev.paseto.jpaseto.io.Deserializer;
 import dev.paseto.jpaseto.lang.Assert;
 import dev.paseto.jpaseto.lang.DateFormats;
@@ -48,6 +52,10 @@ import java.util.function.Predicate;
 
 class DefaultPasetoParser implements PasetoParser {
 
+    private final V1LocalCryptoProvider v1LocalCryptoProvider;
+    private final V2LocalCryptoProvider v2LocalCryptoProvider;
+    private final V1PublicCryptoProvider v1PublicCryptoProvider;
+    private final V2PublicCryptoProvider v2PublicCryptoProvider;
     private final KeyResolver keyResolver;
     private final Deserializer<Map<String, Object>> deserializer;
     private final Clock clock;
@@ -55,7 +63,11 @@ class DefaultPasetoParser implements PasetoParser {
     private final Map<String, Predicate<Object>> userExpectedClaimsMap;
     private final Map<String, Predicate<Object>> userExpectedFooterClaimsMap;
 
-    DefaultPasetoParser(KeyResolver keyResolver, Deserializer<Map<String, Object>> deserializer, Clock clock, Duration allowedClockSkew, Map<String, Predicate<Object>> expectedClaimsMap, Map<String, Predicate<Object>> expectedFooterClaimsMap) {
+    DefaultPasetoParser(V1LocalCryptoProvider v1LocalCryptoProvider, V2LocalCryptoProvider v2LocalCryptoProvider, V1PublicCryptoProvider v1PublicCryptoProvider, V2PublicCryptoProvider v2PublicCryptoProvider, KeyResolver keyResolver, Deserializer<Map<String, Object>> deserializer, Clock clock, Duration allowedClockSkew, Map<String, Predicate<Object>> expectedClaimsMap, Map<String, Predicate<Object>> expectedFooterClaimsMap) {
+        this.v1LocalCryptoProvider = v1LocalCryptoProvider;
+        this.v2LocalCryptoProvider = v2LocalCryptoProvider;
+        this.v1PublicCryptoProvider = v1PublicCryptoProvider;
+        this.v2PublicCryptoProvider = v2PublicCryptoProvider;
         this.keyResolver = keyResolver;
         this.deserializer = deserializer;
         this.clock = clock;
@@ -107,7 +119,7 @@ class DefaultPasetoParser implements PasetoParser {
         SecretKey sharedSecret = keyResolver.resolveSharedKey(Version.V2, Purpose.LOCAL, footer);
         Assert.notNull(sharedSecret, "A shared secret could not be resolved.  A shared secret must be configured in " +
                 "'Pasetos.parserBuilder().setSharedSecret(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
-        byte[] payload = CryptoProviders.v2LocalCryptoProvider().decrypt(encryptedBytes, footerBytes, sharedSecret);
+        byte[] payload = v2LocalCryptoProvider.decrypt(encryptedBytes, footerBytes, sharedSecret);
         Map<String, Object> claims = deserializer.deserialize(payload);
         return new DefaultPaseto(Version.V2, Purpose.LOCAL, new DefaultClaims(claims), footer);
     }
@@ -123,7 +135,7 @@ class DefaultPasetoParser implements PasetoParser {
         PublicKey publicKey = keyResolver.resolvePublicKey(Version.V1, Purpose.PUBLIC, footer);
         Assert.notNull(publicKey, "A public key could not be resolved.  A public key must be configured in " +
                 "'Pasetos.parserBuilder().setPublicKey(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
-        boolean valid = CryptoProviders.v1PublicCryptoProvider().verify(message, footerBytes, signature, publicKey);
+        boolean valid = v1PublicCryptoProvider.verify(message, footerBytes, signature, publicKey);
         if (!valid) {
             throw new PasetoSignatureException("Signature could not be validated in paseto token.");
         }
@@ -140,7 +152,7 @@ class DefaultPasetoParser implements PasetoParser {
         Assert.notNull(sharedSecret, "A shared secret could not be resolved.  A shared secret must be configured in " +
                 "'Pasetos.parserBuilder().setSharedSecret(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
         byte[] nonce = Arrays.copyOf(encryptedBytes, 32);
-        byte[] payload = CryptoProviders.v1LocalCryptoProvider().decrypt(encryptedBytes, footerBytes, nonce, sharedSecret);
+        byte[] payload = v1LocalCryptoProvider.decrypt(encryptedBytes, footerBytes, nonce, sharedSecret);
         Map<String, Object> claims = deserializer.deserialize(payload);
         return new DefaultPaseto(Version.V1, Purpose.LOCAL, new DefaultClaims(claims), footer);
     }
@@ -155,7 +167,7 @@ class DefaultPasetoParser implements PasetoParser {
         PublicKey publicKey = keyResolver.resolvePublicKey(Version.V2, Purpose.PUBLIC, footer);
         Assert.notNull(publicKey, "A public key could not be resolved.  A public key must be configured in " +
                 "'Pasetos.parserBuilder().setPublicKey(...)' or Pasetos.parserBuilder().setKeyResolver(...)");
-        boolean valid = CryptoProviders.v2PublicCryptoProvider().verify(message, footerBytes, signature, publicKey);
+        boolean valid = v2PublicCryptoProvider.verify(message, footerBytes, signature, publicKey);
         if (!valid) {
             throw new PasetoSignatureException("Signature could not be validated in paseto token.");
         }

@@ -13,23 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.paseto.jpaseto;
+package dev.paseto.jpaseto.impl;
 
-import java.util.Map;
+import com.google.auto.service.AutoService;
+import dev.paseto.jpaseto.PasetoV2LocalTokenBuilder;
 
-import dev.paseto.jpaseto.io.Serializer;
-import dev.paseto.jpaseto.lang.Services;
+@AutoService(PasetoV2LocalTokenBuilder.class)
+public class DefaultPasetoV2LocalTokenBuilder extends AbstractPasetoTokenBuilder<PasetoV2LocalTokenBuilder> implements PasetoV2LocalTokenBuilder {
 
-/**
- * A builder interface for creating paseto tokens.
- * @see Pasetos
- * @since 0.1
- * @param <T> A child implementation of PasetoBuilder
- */
-public interface PasetoBuilder<T extends PasetoBuilder> {
-    Serializer<Map<String, Object>> getSerializer();
-
-    PasetoBuilder<T> setSerializer(Serializer<Map<String, Object>> newSerializer);
-
-    String compact(PasetoTokenBuilder t);
 }

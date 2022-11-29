@@ -22,6 +22,11 @@ import dev.paseto.jpaseto.PasetoParser;
 import dev.paseto.jpaseto.PasetoParserBuilder;
 import dev.paseto.jpaseto.Purpose;
 import dev.paseto.jpaseto.Version;
+import dev.paseto.jpaseto.impl.crypto.JcaV2PublicCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V1LocalCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V1PublicCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V2LocalCryptoProvider;
+import dev.paseto.jpaseto.impl.crypto.V2PublicCryptoProvider;
 import dev.paseto.jpaseto.io.Deserializer;
 import dev.paseto.jpaseto.lang.Assert;
 import dev.paseto.jpaseto.lang.Services;
@@ -36,6 +41,26 @@ import java.util.function.Predicate;
 
 @AutoService(PasetoParserBuilder.class)
 public class DefaultPasetoParserBuilder implements PasetoParserBuilder {
+
+    private final V1LocalCryptoProvider v1LocalCryptoProvider;
+    private final V2LocalCryptoProvider v2LocalCryptoProvider;
+    private final V1PublicCryptoProvider v1PublicCryptoProvider;
+    private final V2PublicCryptoProvider v2PublicCryptoProvider;
+
+    public DefaultPasetoParserBuilder() {
+        this(CryptoProviders.v1LocalCryptoProvider(), CryptoProviders.v2LocalCryptoProvider(), CryptoProviders.v1PublicCryptoProvider(), CryptoProviders.v2PublicCryptoProvider());
+    }
+
+    private DefaultPasetoParserBuilder(V1LocalCryptoProvider newV1LocalCryptoProvider, V2LocalCryptoProvider newV2LocalCryptoProvider, V1PublicCryptoProvider newV1PublicCryptoProvider, V2PublicCryptoProvider newV2PublicCryptoProvider) {
+        this.v1LocalCryptoProvider = newV1LocalCryptoProvider;
+        this.v2LocalCryptoProvider = newV2LocalCryptoProvider;
+        this.v1PublicCryptoProvider = newV1PublicCryptoProvider;
+        this.v2PublicCryptoProvider = newV2PublicCryptoProvider;
+    }
+
+    public Deserializer<Map<String, Object>> getDeserializer() {
+        return this.deserializer;
+    }
 
     private PublicKey publicKey = null;
     private SecretKey sharedSecret = null;
@@ -91,7 +116,7 @@ public class DefaultPasetoParserBuilder implements PasetoParserBuilder {
                 ? keyResolver
                 : new SimpleKeyResolver(publicKey, sharedSecret);
 
-        return new DefaultPasetoParser(tmpKeyResolver, tmpDeserializer, clock, allowedClockSkew, expectedClaimsMap, expectedFooterClaimsMap);
+        return new DefaultPasetoParser(v1LocalCryptoProvider, v2LocalCryptoProvider, v1PublicCryptoProvider, v2PublicCryptoProvider, tmpKeyResolver, tmpDeserializer, clock, allowedClockSkew, expectedClaimsMap, expectedFooterClaimsMap);
     }
 
 

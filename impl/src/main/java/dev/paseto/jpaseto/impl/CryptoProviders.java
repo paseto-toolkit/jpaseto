@@ -23,7 +23,7 @@ import dev.paseto.jpaseto.impl.crypto.V2LocalCryptoProvider;
 import dev.paseto.jpaseto.impl.crypto.V2PublicCryptoProvider;
 import dev.paseto.jpaseto.lang.Services;
 
-final class CryptoProviders {
+class CryptoProviders {
 
     private CryptoProviders() {}
 
